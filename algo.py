@@ -1,11 +1,25 @@
+from Bio import pairwise2
 import numpy as np
 
-#Tomato ref seq
-S = "CGCTATTGGGTAAAAGATGCCTCTTCTTTACATTTATTACGATTCTTTCTCCACGAATATTGTAATTTGAATAGTCTTATTACTTCAAAGAAGCCCGGTTACTCCTTTTCAAAAAAAAATCAAAGATTCTTCTTCTTCTTATATAATTCTTATGTATATGAATGCGAATCCACTTTCGTCTTTCTACGGAACCAATCTTCTCATTTACGATCAACATCTTTTGGAGCCCTTCTTGAACGAATATATTTCTATGGAAAAATAGAACGTCTTGTAGAAGCCTTTGCTAAGGATTTTCAGGTTACCCTATGGTTATTCAAGGATCCTGTCATGCATTATGTTAGGTATGAAGGAAAATCAATTCTGGCTTCAAAAGGGACGTTTCCTTGGATGAATAAATGGAAATTTTACCTTGTCAATTTTTGGCAATGTCATTTTTCTATGTACTTTAACACAGGAAGGATCCATATAAACCAATTATCCAACCATTCCCGTGACTTTATGGGCTATCTTTCAAGTGTGCGACTAAATCATTCAATGGTACGTAGTCAAATGTTAGAAAATTCATTTCTAATCAATAATCCAATTAAGAAGTTCGATACCCTTGTTCCAATTATTCCTTTGATTGGATCATTAGCTAAAGCACACTTTTGTACCGGATTAGGGCATCCCATTAGTAAACCAGTTTGGTCCGATTTATCAGATTCTGATATTATTGACCGATTTGGGCGTATATGCAGAAATCTTTTTCATTATTATAGTGGATCTTCCAAAAAAAAGACTTTATATCGAATAAAGTATATACTTCGACTTTCTTGTGC" #Reference Sequence 
-#Tomato lab seq
-T = "AKTTATTACGATTCTTTCTCCACGAATATTGTAATTTGAATAGTCTTATTACTTCAAAGAAGCCCGGTTACTCCTTTTCAAAAAAAAATCAAAGATTCTTCTTCTTCTTATATAATTCTTATGTATATGAATGCGAATCCACTTTCGTCTTTCTACGGAACCAATCTTCTCATTTACRATCAACATCTTTTGGAGCCCTTCTTGAACGAATATATTTCTATGGAAAAATAGAACGTCTTGTARAAGCCTTTGCTAAGGATTTTCAGGTTACCCTATGGTTATTCAAGGATCCTGTCATGCATTATGTTAGGTATGAAGGAAAATCAATTCTGGCTTCAAAAGGGACGTTTCCTTGGATGAATAAATGGAAATTTTACCTTGTCAATTTTTGGCAATGTCATTTTTCTATGTACTTTAACACAGGAAGGATCCATATAAACCAATTATCCAACCATTCCCGTGACTTTATGGGCTATCTTTCAAGTGTGCGACTAAATCATTCAATGGTACGTAGTCAAATGTTAGAAAATTCATTTCTAATCAATAATCCAATTAAGAAGTTCGATACCCTTGTTCCAATTATTCCTTTGATTGGATCATTAGCTAAAGCACACTTTTGTACCGGATTAGGGCATCCCATTAGTAAACCAGTTTGGTCCGATTTATCAGATTCTGATATTATTGACCGATTTGGGCGTATATGCAGAAATCTTTCTCATTTTTY" #Sequence to align
+def bio_align(S, T, opt = 'S'): 
+    # Needleman-Wunsch algorithm using the Biopython library
+    # Option 'S' : Return only the score of the alignment
+    # Option 'A' : Return the score and the alignment
+    # S = Sequence 1
+    # T = Sequence 2
 
-def global_align(S, T, match = 1, mismatch = 1, gap = 1):
+    if opt == 'S': 
+        score = pairwise2.align.globalms(S, T, 2, -1, -0.5, -0.1, score_only=True)
+        return score
+    elif opt == 'A': 
+        alignment = pairwise2.align.globalms(S, T, 2, -1, -0.5, -0.1)
+        return pairwise2.format_alignment(*alignment[0])
+    return 0
+
+def global_align(S, T, match = 1, mismatch = 1, gap = 0):
+    # Needleman-Wunsch algorithm coding from scrath (less performant)
+    # S = Sequence 1
+    # T = Sequence 2
 
     len_S = len(S)
     len_T = len(T)
@@ -63,9 +77,11 @@ def global_align(S, T, match = 1, mismatch = 1, gap = 1):
     rS = ''.join(rS)[::-1]
     rT = ''.join(rT)[::-1]
     score = score_align(rS, rT)
-    return '\n'.join([rS, rT])
+    return '\n'.join([rS, rT]), score
 
 def score_align(S, T):
+    #Compute the score of the alignment for global_align
+    
     score = 0
     size = 0
     for i in range (len(S)): 
@@ -74,7 +90,36 @@ def score_align(S, T):
         if S[i] == T[i]: 
             size += 1
             score += 1
-    print("Alignment accuracy : ", score/size*100, "%")
-    return score 
+    accuracy = score/size*100
+    print("Alignment accuracy : ", accuracy, "%")
+    return accuracy
 
-print(global_align(S, T, gap = 0))
+def align(db, seq, algo, option = 'S'):
+    #Compute the alignment and the score using the different function above
+    #algo 'biopython': use bio_align()
+            #Option 'S' : Return only the best score alignment.
+            #Option 'A' : Return the alignement with the score. 
+    #algo 'global_algng': use global_align()
+            #Return the alignment and the score.
+    
+    if algo == "bioalign": 
+        if option == 'S':
+            score = 0
+            species = ""
+            for key in db.keys(): 
+                S = db[key]
+                tmp = bio_align(S, seq)
+                if tmp > score: 
+                    score = tmp
+                    species = key
+            score = score/(2*len(db[species]))*100
+            print("Alignment score : ", score, "%")
+            print("Species : ", species)
+
+        elif option == 'A':
+            result = bio_align(db, seq, opt='A')
+            print(result)
+
+    elif algo == "global_align":
+        result = global_align(db, seq)
+        print(result)
