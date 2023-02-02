@@ -5,7 +5,7 @@
 GenoRobotics is an interdisciplinary project associating engineers, scientists and students towards the development of a portable device enabling field DNA analysis. The main goal of the association is to develop a miniaturized tool to automatically process samples into the field and accelerate biodiversity identification
 
 ### Bioinformatic
-The bioinformaitc team of the association was split in three different project : 
+The bioinformatic team of the association was split in three different project : 
 - Database project : Create our own database to store all the information collected and not depend on an external agent.
 - Consensus sequence : Find the consensus sequence of the sequence extracted from nanopore sequencing of a plant.
 - Identification project : Compare this consensus sequence with a database to find wich plant it is. 
@@ -66,6 +66,7 @@ Identification_GR.py : main function to run the programm.
 
 ## Utilisation
 To use this project you have to clone the main repository and use the following command line in the terminal.
+
 \python Identification_GR.py [DATABASE_PATH] [SEQUENCE_PATH] [ALGORITHM]
 
 DATABASE_PATH = The path of your database (must be a fasta file)
