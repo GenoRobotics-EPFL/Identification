@@ -1,5 +1,6 @@
 from Bio import pairwise2
 import numpy as np
+import pandas as pd
 
 def bio_align(S, T, opt = 'S'): 
     # Needleman-Wunsch algorithm using the Biopython library
@@ -7,6 +8,14 @@ def bio_align(S, T, opt = 'S'):
     # Option 'A' : Return the score and the alignment
     # S = Sequence 1
     # T = Sequence 2
+    # parameter of pairwise2.globalsms(
+        # Sequence1, 
+        # Sequence2
+        # match's score ,
+        # missmatch's penalty, 
+        # gap penalty, 
+        # big gap penalty (for the second nucleotide of the gap and the nexts), 
+        # score_only=True : give only the alignment's score)
 
     if opt == 'S': 
         score = pairwise2.align.globalms(S, T, 2, -1, -0.5, -0.1, score_only=True)
@@ -20,6 +29,9 @@ def global_align(S, T, match = 1, mismatch = 1, gap = 0):
     # Needleman-Wunsch algorithm coding from scrath (less performant)
     # S = Sequence 1
     # T = Sequence 2
+    # match = score of a matching pair
+    # mismatch = score of a missmatch pair (is negative in the programm)
+    # gap = score of a gap
 
     len_S = len(S)
     len_T = len(T)
@@ -77,10 +89,11 @@ def global_align(S, T, match = 1, mismatch = 1, gap = 0):
     rS = ''.join(rS)[::-1]
     rT = ''.join(rT)[::-1]
     score = score_align(rS, rT)
-    return '\n'.join([rS, rT]), score
+    return '\n'.join([rS, rT])
 
 def score_align(S, T):
     #Compute the score of the alignment for global_align
+    #Count a score of 1 even if the gap has a size of 10
     
     score = 0
     size = 0
@@ -101,20 +114,21 @@ def align(db, seq, algo, option = 'S'):
             #Option 'A' : Return the alignement with the score. 
     #algo 'global_algng': use global_align()
             #Return the alignment and the score.
-    
+   
+    result_dict =  {}
     if algo == "bioalign": 
         if option == 'S':
-            score = 0
-            species = ""
+            # score = 0
+            # species = ""
             for key in db.keys(): 
                 S = db[key]
-                tmp = bio_align(S, seq)
-                if tmp > score: 
-                    score = tmp
-                    species = key
-            score = score/(2*len(db[species]))*100
-            print("Alignment score : ", score, "%")
-            print("Species : ", species)
+                score = bio_align(S, seq)
+                score = score/(2*len(S))*100
+                result_dict.update({key : score})
+            result_df =  pd.DataFrame(list(result_dict.items()),
+                   columns=['Species', 'Alignment score']) 
+            result_df.sort_values(by=['Alignment score'], inplace = True, ascending=False)
+            return result_df  
 
         elif option == 'A':
             result = bio_align(db, seq, opt='A')

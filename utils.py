@@ -5,6 +5,7 @@ def parse_database(path):
     #Create a dictionnary from the database's file
     #Description of the sequence are the keys
     #DNA sequence are the values
+
     sequence = {}
     for record in SeqIO.parse(path, "fasta"):
         sequence[record.description] = record.seq
@@ -13,6 +14,7 @@ def parse_database(path):
 
 def parse_sequence(path):
     #Put the sequence to align in a list
+
     sequence = []
     for record in SeqIO.parse(path, "fasta"):
         sequence = record.seq
@@ -20,7 +22,8 @@ def parse_sequence(path):
 
 
 def replace_nucleotide(seq):
-    #Replace all the false nucleotide by '-'
+    #Replace all the uncertain nucleotide by '-'
+
     table =  ["A", "T", "C", "G"]
     seq_clean = ""
     for i in range (len(seq)): 
@@ -30,14 +33,23 @@ def replace_nucleotide(seq):
             seq_clean += '-'
     return seq_clean
 
+def sequence_uppercase(seq):
+    #Put all the nucleotide in uppercase
+
+    seq_up = seq.upper()
+    return seq_up
+
 
 def import_data(database, sequence, option = '1'):
     #Compute the different function to preprocess all the sequence
+
     if option == '1':
         # Option 1 = Comparison of a DNA sequence with whole the database
         db =  parse_database(database)
         seq = parse_sequence(sequence)
-        T = replace_nucleotide(seq)
+        T = sequence_uppercase(seq)
+        T = replace_nucleotide(T)
+        
     if option == '2': 
         # Option 2 = Comparison of two DNA sequence
         db =  parse_sequence(database)
