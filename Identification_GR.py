@@ -8,7 +8,9 @@ if __name__ == "__main__":
     #Run all the programm
     #Run the 3 options (see the Readme file for more information on it)
     #function time : allow to see the runtime of each different algorithm 
-    #print the result: DataFrame with the species and the score for option 1 and alignment and score for option 2 and 3
+    #print the result: 
+        #   DataFrame with the species and the score for option 1 
+        #   Alignment and score for option 2 and 3
 
     #Check error of the command line
     if len(sys.argv) != 4:

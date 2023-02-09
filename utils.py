@@ -3,6 +3,7 @@ from Bio import SeqIO
 
 def parse_database(path):
     #Create a dictionnary from the database's file
+    #Return a dict : 
     #Description of the sequence are the keys
     #DNA sequence are the values
 

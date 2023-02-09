@@ -16,6 +16,7 @@ def bio_align(S, T, opt = 'S'):
         # gap penalty, 
         # big gap penalty (for the second nucleotide of the gap and the nexts), 
         # score_only=True : give only the alignment's score)
+    # return : only the alignment's score or the alignment's sequence moreover
 
     if opt == 'S': 
         score = pairwise2.align.globalms(S, T, 2, -1, -0.5, -0.1, score_only=True)
@@ -30,8 +31,9 @@ def global_align(S, T, match = 1, mismatch = 1, gap = 0):
     # S = Sequence 1
     # T = Sequence 2
     # match = score of a matching pair
-    # mismatch = score of a missmatch pair (is negative in the programm)
+    # mismatch = score of a missmatch pair (substract in the programm)
     # gap = score of a gap
+    # return : sequence's alignment and the score 
 
     len_S = len(S)
     len_T = len(T)
@@ -94,6 +96,8 @@ def global_align(S, T, match = 1, mismatch = 1, gap = 0):
 def score_align(S, T):
     #Compute the score of the alignment for global_align
     #Count a score of 1 even if the gap has a size of 10
+    # S = Sequence 1 align
+    # T = Sequence 2 align 
     
     score = 0
     size = 0
@@ -112,14 +116,13 @@ def align(db, seq, algo, option = 'S'):
     #algo 'biopython': use bio_align()
             #Option 'S' : Return only the best score alignment.
             #Option 'A' : Return the alignement with the score. 
-    #algo 'global_algng': use global_align()
+    #algo 'global_align': use global_align()
             #Return the alignment and the score.
    
     result_dict =  {}
     if algo == "bioalign": 
         if option == 'S':
-            # score = 0
-            # species = ""
+            score = 0
             for key in db.keys(): 
                 S = db[key]
                 score = bio_align(S, seq)
