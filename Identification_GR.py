@@ -18,7 +18,7 @@ if __name__ == "__main__":
         print("Please verify the number of argument")
         print("Number of argument must be egual to 3 : [Database file path], [Sequence file path], [option (1, 2 or 3)]")
     
-    #Comparison of a sequence with all the database
+    #Comeison of a sequence with all the database
     elif sys.argv[3] == '1':
         start = time.time()
         db, seq =  import_data(sys.argv[1], sys.argv[2], option = '1')
