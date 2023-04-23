@@ -8,7 +8,7 @@
 # - one csv file with all genes of all families
 # and selection of family happens inside code
 
-Entrez.email = 'eva.frossard@epfl.ch'
+
 
 import pandas as pd
 from Bio import SeqIO
@@ -16,14 +16,14 @@ import os.path as ospath
 import os
 from Bio import Entrez
 
-hierarchy = pd.read_csv(os.getcwd() + "/hierarchy_report.csv")
+Entrez.email = 'eva.frossard@epfl.ch'
 
 def build_database():
     """
     Creates a new folder that organizes the Genorobotics database by family.
     The folder is called Database_by_family.
     This folder contains:
-    -a csv with the gene entries that were not treated properly and need manual intervention
+    - a csv with the gene entries that were not treated properly and need manual intervention
     - sub-folders containing the name of the family, each containing
     four csv files for each of the barcoding genes: matK, psba_trnh, rbcl, its.
 
@@ -36,7 +36,7 @@ def build_database():
     None
     """
 
-    initial_dir = ospath.abspath(os.getcwd() + "/Database") # path to the initial database
+    initial_dir = ospath.abspath(os.getcwd() + "/Database_test") # path to the initial database
     os.mkdir("Database_by_family") #creates a folder for saving the new_database
     creating_dir = ospath.abspath(os.getcwd() + "/Database_by_family") # and saves its dir
 
@@ -45,6 +45,7 @@ def build_database():
     manual_db.to_csv(creating_dir+"//manual_treatment")
 
     for file in os.listdir(initial_dir):
+        #this for loop has 4 iterations, one for each of the four gene files
 
         gene_path = ospath.join(initial_dir, file) #path to any of the four gene files
         seq_objects = SeqIO.parse(gene_path, "fasta") #creates iterable SeqRecord object
@@ -62,7 +63,9 @@ def build_database():
                 new_row.to_csv(ospath.join(creating_dir + "//manual_treatment"), mode = 'a', header = False)
             else:
                 new_row = pd.DataFrame({"gene_id":[gene_id], "genus": [genus], "species":[species], "sequence": [sequence]})
-                family = get_families(get_taxids([genus + species]))
+                print(genus+ " " + species)
+                family = get_family(genus + " " + species)
+                
             
                 if family not in os.listdir(creating_dir):
                     #the family's folder has not yet been created
@@ -176,11 +179,6 @@ def extract_binomial(description):
     
     
 
-    
-
-
-
-
 def separate(description):
      """
     creates a list of the different words of the description seperated by spaces
@@ -229,42 +227,123 @@ def treat_word(word):
     
 
 def extract_id(description):
-     separated = separate(description)
-     id = separated[0]
-     id = id.replace(">", "")
-     return id
+    """
+    Extracts the unique NCBI id from the description of a gene sequence entry on GenBank.
 
-"""
-def get_family(genus):
-     for i in range(0,len(hierarchy)):
-         if genus in hierarchy.genuses[i]:
-             return hierarchy.Family[i]
-     return "undefined"
-"""
+    Parameters
+    ----------
+        Description = fasta formatted description of the gene sequence
 
-def get_taxids(species_list):
+    Returns
+    -------
+        the ID
+    """
+    separated = separate(description)
+    id = separated[0]
+    id = id.replace(">", "")
+    return id
+
+def get_taxids(binomial_list):
+    """
+    Accesses the NCBI taxonomy database through the Entrez library and retrieves the corresponding taxonomy ids
+    from a list of species name. The names are given using the binomial nomenclature (genus + species).
+    If a name is not found in the taxonomy, the taxid is set to -1
+
+    Parameters
+    ----------
+        binomial_list: a list with the species' names
+
+    Returns
+    -------
+        a list of the corresponding taxids
+    """
     taxids = []
-    for species_name in species_list:
-        handle = Entrez.esearch(db='taxonomy', term=species_name)
+    for binomial in binomial_list:
+        handle = Entrez.esearch(db='taxonomy', term=binomial)
         record = Entrez.read(handle)
         if not len(record['IdList']) == 0:
             taxid = record['IdList'][0]
             taxids.append(taxid)
+        else:
+            taxid = -1
+            taxids.append(taxid)
+
     return taxids
 
 def get_families(taxids):
+    """
+    Accesses the NCBI taxonomy database through the Entrez library and retrieves the corresponding families
+    from a list of taxids.
+    If a name is not found in the taxonomy, the family's name is replaced by "Not Found"
+
+    Parameters
+    ----------
+        taxids: a list of taxids
+
+    Returns
+    -------
+        a list of the corresponding family names
+    """
     handle = Entrez.efetch(db="taxonomy", id=taxids, retmode="xml")
     records = Entrez.read(handle)
     handle.close()
     family_names = []
     for record in records:
         try:
-            family_name = record['LineageEx'][17]['ScientificName']
+            family_name = treat_lineage_ex(record['LineageEx'])
+            print(type(record['LineageEx']))
             family_names.append(family_name)
         except:
-            family_names.append(None)
+            family_names.append("Not Found")
     return family_names
 
+def treat_lineage_ex(lineage):
+    """
+    Extracts the family from a Bio.Entrez.Parser.ListElement object corresponding to the search result from
+    looking through the NCBI taxonomy database. 
+
+    Parameters
+    ----------
+    lineage = 'Bio.Entrez.Parser.ListElement' object, is the 'LineageEx' element of the search result.
+
+
+    Returns
+    -------
+    the name of the family
+
+    """
+    family = "Not Found"
+    for level in lineage:
+        if level['Rank'] == "family":
+            family = level['ScientificName']
+    return family
+
+def get_family(binomial):
+    """
+    get the family of a species from its binomial nomenclature by searching through the NCBI taxonomy db.
+    Returns "Not Found" if the family was not found in the db. This can happen in three cases:
+
+    1- the binomial passed as argument is not valid, might indicate a problem in extracting the binomial
+    from the fasta description, (get_taxids(binomial[0] returns -1)
+    2- a taxid for the binomial was found, but no corresponding desciption of lineage.
+    3- a description of lineage was found but no family member. 
+
+    It is still unclear Whether cases 2 and 3 are possible since the taxonomy db should have a description lineage
+    for each taxid it can provide.
+
+    Parameters
+    ----------
+    binomial = binomial nomenclature of species (genus + species)
+
+
+    Returns
+    -------
+    the name of the family
+    
+    """
+    taxid = get_taxids([binomial])[0]
+    family = get_families([taxid])[0]
+    return family
 
 
 
