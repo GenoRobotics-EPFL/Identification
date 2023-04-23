@@ -163,4 +163,3 @@ cython_debug/
 #my specific ignores
 
 testing_stuff.py
-/Database_test
