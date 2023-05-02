@@ -3,6 +3,8 @@ from algo import *
 import pandas as pd
 import time
 import sys
+import os.path as ospath
+import os
 
 if __name__ == "__main__":
     #Run all the programm
@@ -13,15 +15,24 @@ if __name__ == "__main__":
         #   Alignment and score for option 2 and 3
 
     #Check error of the command line
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 4 or len(sys.argv) != 5:
         print("Error !")
         print("Please verify the number of argument")
-        print("Number of argument must be egual to 3 : [Database file path], [Sequence file path], [option (1, 2 or 3)]")
+        print("Number of argument must be egual to 3 or 4:  [Sequence file path], [option (1, 2 or 3)], [Gene Name], [OPTIONAL: Family Name]" )
     
     #Comeison of a sequence with all the database
-    elif sys.argv[3] == '1':
+    elif sys.argv[2] == '1':
         start = time.time()
-        db, seq =  import_data(sys.argv[1], sys.argv[2], option = '1')
+        if len(sys.argv) == 4:
+            database_path =  ospath.abspath(os.getcwd() + "/Database/" + sys.argv[3])
+            db, seq =  import_data(database_path, sys.argv[1], option = '1')
+            ##code de alex
+        else: 
+            # boucler sur les noms des familles pour verifier si argv[4] est bien un nom de famille
+            # sinon raise ValueError
+            database_path =  ospath.abspath(os.getcwd() + "/Database/" + sys.argv[4] + "/" + sys.argv[3])
+            db, seq =  import_data(database_path, sys.argv[1], option = '1')
+
         result = align(db,seq,"bioalign")
         end = time.time()
         print(result.head(10))

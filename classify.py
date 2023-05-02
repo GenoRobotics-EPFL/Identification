@@ -8,7 +8,7 @@
 # - one csv file with all genes of all families
 # and selection of family happens inside code
 
-
+genus_to_family = {}
 
 import pandas as pd
 from Bio import SeqIO
@@ -36,7 +36,7 @@ def build_database():
     None
     """
 
-    initial_dir = ospath.abspath(os.getcwd() + "/Database_test") # path to the initial database
+    initial_dir = ospath.abspath(os.getcwd() + "/Database") # path to the initial database
     os.mkdir("Database_by_family") #creates a folder for saving the new_database
     creating_dir = ospath.abspath(os.getcwd() + "/Database_by_family") # and saves its dir
 
@@ -63,7 +63,7 @@ def build_database():
                 new_row.to_csv(ospath.join(creating_dir + "//manual_treatment"), mode = 'a', header = False)
             else:
                 new_row = pd.DataFrame({"gene_id":[gene_id], "genus": [genus], "species":[species], "sequence": [sequence]})
-                print(genus+ " " + species)
+                #print(genus+ " " + species)
                 family = get_family(genus + " " + species)
                 
             
@@ -291,7 +291,7 @@ def get_families(taxids):
     for record in records:
         try:
             family_name = treat_lineage_ex(record['LineageEx'])
-            print(type(record['LineageEx']))
+            #print(type(record['LineageEx']))
             family_names.append(family_name)
         except:
             family_names.append("Not Found")
@@ -341,9 +341,15 @@ def get_family(binomial):
     the name of the family
     
     """
-    taxid = get_taxids([binomial])[0]
-    family = get_families([taxid])[0]
-    return family
+    if binomial[0] in genus_to_family.keys():
+        return genus_to_family[binomial[0]]
+    else:
+        taxid = get_taxids([binomial])[0]
+        family = get_families([taxid])[0]
+        genus_to_family[binomial[0]] = family
+        return family
+
+    
 
 
 
