@@ -14,6 +14,7 @@ import pandas as pd
 from Bio import SeqIO
 import os.path as ospath
 import os
+import time
 from Bio import Entrez
 
 Entrez.email = 'eva.frossard@epfl.ch'
@@ -46,7 +47,7 @@ def build_database():
 
     for file in os.listdir(initial_dir):
         #this for loop has 4 iterations, one for each of the four gene files
-
+        print("begin: " + file)
         gene_path = ospath.join(initial_dir, file) #path to any of the four gene files
         seq_objects = SeqIO.parse(gene_path, "fasta") #creates iterable SeqRecord object
         gene = extract_gene(file)
@@ -84,7 +85,8 @@ def build_database():
                     else:
                         #the gene's file has already been created
                         new_row.to_csv(ospath.join(family_dir, gene), mode = 'a', header=False) #mode a to append instead of overwriting the file (mode w)
-            
+        
+        print("end: " + file)    
             
 
 def extract_gene(db_name):
@@ -98,13 +100,13 @@ def extract_gene(db_name):
     -------
     Species name, string
     """
-    if db_name == "sequences_matK_800-1550.fasta":
+    if db_name == "sequences_matK_800-1550.fasta" or db_name == "matk.fasta":
         return "matk"
-    elif db_name == "psbA-trnH_sequence.fasta":
+    elif db_name == "psbA-trnH_sequence.fasta" or db_name == "psba-trnh.fasta":
         return "psba-trnh"
-    elif db_name == "rcbL_sequence.fasta":
+    elif db_name == "rcbL_sequence.fasta" or db_name == "rbcl.fasta":
         return "rbcl"
-    elif db_name == "its":
+    elif db_name == "its" or db_name == "its.fasta":
         return "its"
     else:
         raise ValueError("No valid file name")
@@ -352,5 +354,7 @@ def get_family(binomial):
     
 
 
-
+start=time.time()
 build_database()
+end = time.time()
+print(f'Temps d\'exécution : ', end-start, 's')
