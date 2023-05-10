@@ -78,6 +78,8 @@ Here is a table of the common keywords identified and the way we deal with them:
 | var. | ----- | skip |
 | uncultured | ----- | skip |
 | unverified | ----- | skip |
+| cf. | ----- | skip |
+| aff. | ----- | skip |
 
 
 ### Finding the family

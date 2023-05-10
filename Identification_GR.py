@@ -20,6 +20,7 @@ if __name__ == "__main__":
 
     # OPTION 1: comparison of a sequence with all the database
     elif sys.argv[1] == '1':
+        print(len(sys.argv))
         # Managing errors
         if not ospath.exists(sys.argv[2]):
             raise TypeError('The sequence path does not exist')
@@ -29,14 +30,20 @@ if __name__ == "__main__":
             start = time.time()
             # In case no family name was provided
             if len(sys.argv) == 4:
-                database_path =  ospath.abspath(os.getcwd() + "/Database/" + sys.argv[3])
-                db, seq =  import_data(database_path, sys.argv[1], option = '1')
+                database_path =  ospath.abspath(os.getcwd() + "/Database/" + sys.argv[3]  + ".fasta")
+                db, seq =  import_data(database_path, sys.argv[2], option = '1')
+                
 
             # In case a family name is provided
             else: 
-                family_db = ospath.abspath(os.getcwd() + "/Database_by_family/" + sys.argv[4] + "/" + sys.argv[3])
+                family_db = ospath.abspath(os.getcwd() + "/Database_by_family/" + sys.argv[4] + "/" + sys.argv[3]+ ".csv")
+                if not ospath.exists(sys.argv[2]):
+                    raise TypeError('The family specific csv file path does not exist')
                 if ospath.exists(family_db):
-                    db, seq =  import_data(family_db, sys.argv[2], option = '1')
+                    db, seq =  import_data(family_db, sys.argv[2] , option = '1')
+            
+            print("the test sequence is:")
+            print(seq)
             result = align(db,seq,"bioalign")
             end = time.time()
             print(result.head(10))
@@ -71,4 +78,3 @@ if __name__ == "__main__":
 
     else:
         raise TypeError("[option] must be equal to '1', '2' or '3'")
-

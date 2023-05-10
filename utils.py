@@ -1,6 +1,6 @@
 from Bio import SeqIO
+import pandas as pd
 import os.path as ospath
-import os
 
 
 def parse_database(path):
@@ -8,10 +8,18 @@ def parse_database(path):
     #Return a dict : 
     #Description of the sequence are the keys
     #DNA sequence are the values
+
     sequence = {}
-    for record in SeqIO.parse(path, "fasta"):
-        print("parse")
-        sequence[record.description] = record.seq
+    if path.endswith(".fasta"):
+        for record in SeqIO.parse(path, "fasta"):
+            sequence[record.description] = record.seq
+    elif path.endswith(".csv"):
+        db = pd.read_csv(path)
+        for i in range(len(db.index)):
+            species = db.loc[i]["genus"] + " " + db.loc[i]["species"]
+            sequence[species] = db.loc[i]["sequence"]
+    else:
+        raise FileNotFoundError("Invalid file extension, must be .fasta or .csv")
     return sequence
 
 
@@ -45,6 +53,7 @@ def sequence_uppercase(seq):
 
 def import_data(database, sequence, option = '1'):
     #Compute the different function to preprocess all the sequence
+
     if option == '1':
         # Option 1 = Comparison of a DNA sequence with whole the database
         db =  parse_database(database)
@@ -58,4 +67,3 @@ def import_data(database, sequence, option = '1'):
         seq = parse_sequence(sequence)
         T = replace_nucleotide(seq)
     return db, T
-

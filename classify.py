@@ -101,13 +101,13 @@ def extract_gene(db_name):
     Species name, string
     """
     if db_name == "sequences_matK_800-1550.fasta" or db_name == "matk.fasta":
-        return "matk"
+        return "matk.csv"
     elif db_name == "psbA-trnH_sequence.fasta" or db_name == "psba-trnh.fasta":
-        return "psba-trnh"
+        return "psba-trnh.csv"
     elif db_name == "rcbL_sequence.fasta" or db_name == "rbcl.fasta":
-        return "rbcl"
+        return "rbcl.csv"
     elif db_name == "its" or db_name == "its.fasta":
-        return "its"
+        return "its.csv"
     else:
         raise ValueError("No valid file name")
 
@@ -218,7 +218,7 @@ def treat_word(word):
      for symbol in strip_list:
          new_word = new_word.replace(symbol,"")
 
-     skipping_keywords = ["sp.", "var." "uncultured", "unverified"]
+     skipping_keywords = ["sp.", "var." "uncultured", "unverified", "cf.", "aff."]
 
      if "." in new_word:
          code = 0
