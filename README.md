@@ -152,14 +152,14 @@ Uses global_algo, a Needleman-Wunsch Algorithm coded internally.
 - [3] : Sequence alignment, returns the best alignment and the matching score (in percent). 
 Uses a Needleman-Wunsch Algorithm with the librart Biopython.
 
-\python Identification_GR.py [option = 1] [sequence_path] [gene_name] [--family_name]
-SEQUENCE_PATH = The path of your sequence (must be a fasta file, with extension ".fasta")
-GENE_NAME = Name of the gene, choices: "matk", "rbcl", "psbA-trnh", "its"
---FAMILY_NAME = Optional, name of the Family taxon (if known) 
+**\python Identification_GR.py [option = 1] [sequence_path] [gene_name] [--family_name]**
+- SEQUENCE_PATH = The path of your sequence (must be a fasta file, with extension ".fasta")
+- GENE_NAME = Name of the gene, choices: "matk", "rbcl", "psbA-trnh", "its"
+- --FAMILY_NAME = Optional, name of the Family taxon (if known) 
 
-\python Identification_GR.py [option = 2 or 3] [template_path] [consensus_path] 
-TEMPLATE_PATH = The path of your template sequence (must be a fasta file)
-CONSESUS_PATH = The path of your consensus sequence (must be a fasta file)
+**\python Identification_GR.py [option = 2 or 3] [template_path] [consensus_path]**
+- TEMPLATE_PATH = The path of your template sequence (must be a fasta file)
+- CONSESUS_PATH = The path of your consensus sequence (must be a fasta file)
 
 
 
