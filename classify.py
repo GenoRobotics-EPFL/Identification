@@ -299,6 +299,7 @@ def get_families(taxids):
             family_names.append("Not Found")
     return family_names
 
+
 def treat_lineage_ex(lineage):
     """
     Extracts the family from a Bio.Entrez.Parser.ListElement object corresponding to the search result from
