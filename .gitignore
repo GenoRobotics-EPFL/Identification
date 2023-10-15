@@ -161,5 +161,6 @@ cython_debug/
 
 
 #my specific ignores
-
+gitignore
 testing_stuff.py
+test.fasta
