@@ -74,12 +74,12 @@ Here is a table of the common keywords identified and the way we deal with them:
 
 | keyword | meaning | treatment |
 | --- | --- | --- |
-| sp. | ----- | skip |
-| var. | ----- | skip |
-| uncultured | ----- | skip |
-| unverified | ----- | skip |
-| cf. | ----- | skip |
-| aff. | ----- | skip |
+| sp. | species without name, probably new | non-taxonomically verified db |
+| var. | sub-species | skip |
+| uncultured | mixed environmental sample (ex: soil) not sample from specific plant | non-taxonomically verified db  |
+| unverified | GenBank hasn't verified the translation into protein | non-taxonomically verified db |
+| cf. | sequencer is not sure of species of sample | non-taxonomically verified db |
+| aff. | sample's species is not defined with certainty so the one mentioned is the closest morphologically | non-taxonomically verified db  |
 
 
 ### Finding the family
