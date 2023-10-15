@@ -5,20 +5,20 @@
 GenoRobotics is an interdisciplinary project associating engineers, scientists and students towards the development of a portable device enabling field DNA analysis. The main goal of the association is to develop a miniaturized tool to automatically process samples into the field and accelerate biodiversity identification
 
 ### Bioinformatics
-The bioinformatics team of the association was split in three different project : 
+The bioinformatics team of the association was split in three different projects : 
 - Database project : Create our own database to store all the information collected and not depend on an external agent.
 - Consensus sequence : Find the consensus sequence of the sequence extracted from nanopore sequencing of a plant.
-- Identification project : Compare this consensus sequence with a database to find wich plant it is. 
+- Identification project : Compare this consensus sequence with a database to identify the plant's species. 
 
 ### Identification Project
 The goal of this project was to find a way to compare a DNA sequence with a large database as fast as possible. 
 The first step was about the database. We had to find a way to download the ncbi database to use it locally on our computer. Next, we have decided to create a second database organized into the family taxon to improve runtime. 
-The second step was to find an algorithm efficient to compare the DNA sequence with several tens of thousands sequence. We have to compare the 4 gene extracted from the plant (MatK, rbcL, psbA-trnH, ITS) with nanopore sequencing with this database to find which plant it is,  or,  if this plant is not in the database, the closest plant to it. To do that we use the Needleman-Wunsch algorithm. 
+The second step was to find an algorithm efficient to compare the DNA sequence with several tens of thousands sequence. We have to compare the 4 genes extracted from the plant (MatK, rbcL, psbA-trnH, ITS) with nanopore sequencing with this database to find which plant it is,  or,  if this plant is not in the database, the closest plant to it. To do that we use the Needleman-Wunsch algorithm. 
 
 
 ## Download the useful database
 To improve the efficiency of the algorithm you have to download only the part of the database of your interest. With the nanopore sequencing using MinION technology, we extract 4 genes (MatK, rbcL, psbA-trnH, ITS) so it's important to download the database of these genes. 
-To download the best database possible please follow this few rules :
+To download the best database possible please follow the following steps :
 - Go on the website: https://www.ncbi.nlm.nih.gov/nuccore
 - Enter the gene you need (MatK, rbcL, psbA-trnH, ITS)
 - Select the length of the sequence of interest with [Sequence length] on the left (allow to select less sequence and only the sequence of interest)
