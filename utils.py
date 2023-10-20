@@ -1,4 +1,6 @@
 from Bio import SeqIO
+import pandas as pd
+import os.path as ospath
 
 
 def parse_database(path):
@@ -8,8 +10,16 @@ def parse_database(path):
     #DNA sequence are the values
 
     sequence = {}
-    for record in SeqIO.parse(path, "fasta"):
-        sequence[record.description] = record.seq
+    if path.endswith(".fasta"):
+        for record in SeqIO.parse(path, "fasta"):
+            sequence[record.description] = record.seq
+    elif path.endswith(".csv"):
+        db = pd.read_csv(path)
+        for i in range(len(db.index)):
+            species = db.loc[i]["genus"] + " " + db.loc[i]["species"]
+            sequence[species] = db.loc[i]["sequence"]
+    else:
+        raise FileNotFoundError("Invalid file extension, must be .fasta or .csv")
     return sequence
 
 
