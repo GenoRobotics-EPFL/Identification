@@ -25,6 +25,11 @@ def extract_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
     seq_record = seq_handle.read()
     return seq_record
 
+def download_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
+        with open(f"{gene_name}[{seqlen_start},{seqlen_stop}].fasta", mode = "w") as file:
+            file.write(extract_database(gene_name,seqlen_start, seqlen_stop))
+
+
 def calculate_avg_length(db):
     #return avg_length
     a=3
