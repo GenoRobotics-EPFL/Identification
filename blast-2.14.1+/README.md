@@ -53,3 +53,7 @@ Use the blastn command-line tool :
 blastn -query `<input file.fasta>` -db `<db name>` -out `<output name.txt>` -max_target_seqs 5
 
 Check your .txt result to interpret results ! 
+
+# Full tutorial and more resources
+
+https://www.ncbi.nlm.nih.gov/books/NBK52637/ 
