@@ -1,5 +1,6 @@
 from Bio import Entrez
 from Bio import SeqIO
+import pandas as pd
 
 Entrez.email = 'ghassan.abboud@epfl.ch'
 
@@ -48,6 +49,30 @@ def download_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
     with open(f"{gene_name}[{seqlen_start},{seqlen_stop}].fasta", mode = "w") as file:
         file.write(extract_database(gene_name,seqlen_start, seqlen_stop))
     return data_path
+
+def parse_data(path):
+    '''Creates a dataframe (pandas) from raw data
+    
+    Args:
+        path: (str) path to raw data file
+        
+    Returns:
+        df: pandas dataframe of sequences'''
+    # Parse the FASTA file into SeqRecord object
+    sequences = SeqIO.parse(path, "fasta")
+
+    sequence_data = []
+    r = []
+    # Extract from each record a dictionnary of features
+    for record in sequences:
+        r.append(record)
+        sequence_data.append({'ID': record.id,
+                              'Sequence': str(record.seq),
+                              'Description': record.description})
+
+    # Transform the list of dictionnaries to a pandas DataFrame
+    df = pd.DataFrame(sequence_data)
+    return df
 
 
 def calculate_avg_length(db):
