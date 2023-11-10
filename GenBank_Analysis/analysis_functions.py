@@ -18,6 +18,15 @@ def build_search_term(gene_name, min_len = 0, max_len= -1):
     return term
 
 def extract_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
+    '''Request data on GenBank from NCBI (with Entrez module), with filtering options
+    
+    Args:
+        gene_name: (str) name of the gene to extract from GenBank
+        seqlen_start: (int) lower bound of the sequence length filter
+        seqlen_stop: (int) upper bound of the sequence length filter
+    
+    Returns:
+        seq_record: (str) raw data of all sequences'''
     handle = Entrez.esearch(db= "nucleotide", term= build_search_term(gene_name, seqlen_start, seqlen_stop))
     record = Entrez.read(handle)
     matching_requests = record["IdList"]
@@ -26,8 +35,19 @@ def extract_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
     return seq_record
 
 def download_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
-        with open(f"{gene_name}[{seqlen_start},{seqlen_stop}].fasta", mode = "w") as file:
-            file.write(extract_database(gene_name,seqlen_start, seqlen_stop))
+    '''Download data to a .fasta file, with filtering options
+    
+    Args:
+        gene_name: (str) name of the gene to extract from GenBank
+        seqlen_start: (int) lower bound of the sequence length filter
+        seqlen_stop: (int) upper bound of the sequence length filter
+    
+    Returns:
+        data_path: (str) path to downloaded data .fasta file'''
+    data_path = f"{gene_name}[{seqlen_start},{seqlen_stop}].fasta"
+    with open(f"{gene_name}[{seqlen_start},{seqlen_stop}].fasta", mode = "w") as file:
+        file.write(extract_database(gene_name,seqlen_start, seqlen_stop))
+    return data_path
 
 
 def calculate_avg_length(db):
