@@ -70,7 +70,7 @@ def calculate_avg_length(path_to_fasta):
         number_of_genes += 1
         total_length += len(genes)
     average = total_length / number_of_genes
-    return average
+    return average
 
 def build_search_term(gene_name, min_len = 0, max_len= -1):
     term = f"{gene_name}[Gene Name]"
@@ -113,7 +113,7 @@ def download_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
         data_path: (str) path to downloaded data .fasta file
     '''
     data_path = f"{gene_name}[{seqlen_start},{seqlen_stop}].fasta"
-    with open(f"{gene_name}[{seqlen_start},{seqlen_stop}].fasta", mode = "w") as file:
+    with open(data_path, mode = "w") as file:
         file.write(extract_database(gene_name,seqlen_start, seqlen_stop))
     return data_path
 
@@ -129,10 +129,8 @@ def parse_data(path):
     sequences = SeqIO.parse(path, "fasta")
 
     sequence_data = []
-    r = []
     # Extract from each record a dictionnary of features
     for record in sequences:
-        r.append(record)
         sequence_data.append({'ID': record.id,
                               'Sequence': str(record.seq),
                               'Description': record.description})
@@ -140,3 +138,11 @@ def parse_data(path):
     # Transform the list of dictionnaries to a pandas DataFrame
     df = pd.DataFrame(sequence_data)
     return df
+
+def nucleotide_ratio(df):
+    df['A'] = df.Sequence.apply(lambda x: x.count('A')/len(x)*100)
+    df['T'] = df.Sequence.apply(lambda x: x.count('T')/len(x)*100)
+    df['G'] = df.Sequence.apply(lambda x: x.count('G')/len(x)*100)
+    df['C'] = df.Sequence.apply(lambda x: x.count('C')/len(x)*100)
+    ratio = df[['A','T','G','C']]
+    return ratio
