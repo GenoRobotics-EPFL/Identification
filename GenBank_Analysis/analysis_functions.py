@@ -8,6 +8,105 @@ import pandas as pd
 
 Entrez.email = 'ghassan.abboud@epfl.ch'
 
+#-------------------------------
+#extract information from ncbi
+#-------------------------------
+
+
+def build_search_term(gene_name, min_len = 0, max_len= -1):
+    """ generate a search query for NCBI's nucleotide database (GenBank). Bio.Entrez does not provide filters such as sequence length and gene name
+    so a long search query must be used instead.
+    Used to make database queries in extract_database and download_database
+    
+    Parameters
+    ----------
+        gene_name: (str) name of the gene of interest
+        min_len: (int, optional) lower bound of the sequence length filter, by default 0
+        max_len: (int, optional) upper bound of the sequence length filter, by default -1 means no limit
+    
+    Returns
+    ----------
+        term: (str) search query
+    """
+    term = f"{gene_name}[Gene Name]"
+    if max_len == -1:
+        for i in range(min_len):
+            term += f" NOT {i}[Sequence Length]"
+    else:
+        term += f" AND ({min_len}[Sequence Length]"
+        for i in range(min_len +1, max_len+1):
+            term += f" OR {i}[Sequence Length]"
+        term += ")"
+    return term
+
+def extract_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
+    '''Request data on GenBank from NCBI (with Entrez module), with filtering options
+    
+    Parameters
+    ----------
+        gene_name: (str) name of the gene to extract from GenBank
+        seqlen_start: (int, optional) lower bound of the sequence length filter, by default 0
+        seqlen_stop: (int, optional) upper bound of the sequence length filter, by default -1 means no limit
+    
+    Returns
+    ----------
+        seq_record: (str) raw data of all sequences
+    '''
+    handle = Entrez.esearch(db= "nucleotide", term= build_search_term(gene_name, seqlen_start, seqlen_stop))
+    record = Entrez.read(handle)
+    matching_requests = record["IdList"]
+    seq_handle = Entrez.efetch(db="nucleotide", id=matching_requests, retmode = "fasta", rettype = "fasta")
+    seq_record = seq_handle.read()
+    return seq_record
+
+def download_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
+    '''Download data to a .fasta file, with filtering options
+    
+    Args:
+        gene_name: (str) name of the gene to extract from GenBank
+        seqlen_start: (int) lower bound of the sequence length filter
+        seqlen_stop: (int) upper bound of the sequence length filter
+    
+    Returns:
+        data_path: (str) path to downloaded data .fasta file
+    '''
+    data_path = f"{gene_name}[{seqlen_start},{seqlen_stop}].fasta"
+    with open(data_path, mode = "w") as file:
+        file.write(extract_database(gene_name,seqlen_start, seqlen_stop))
+    return data_path
+
+
+#-------------------------------
+#parse data
+#-------------------------------
+
+
+def parse_data(path):
+    '''Creates a dataframe (pandas) from raw data
+    
+    Args:
+        path: (str) path to raw data file
+        
+    Returns:
+        df: pandas dataframe of sequences'''
+    # Parse the FASTA file into SeqRecord object
+    sequences = SeqIO.parse(path, "fasta")
+
+    sequence_data = []
+    # Extract from each record a dictionnary of features
+    for record in sequences:
+        sequence_data.append({'ID': record.id,
+                              'Sequence': str(record.seq),
+                              'Description': record.description})
+
+    # Transform the list of dictionnaries to a pandas DataFrame
+    df = pd.DataFrame(sequence_data)
+    return df
+
+
+#-------------------------------
+#calculate database characteristics
+#-------------------------------
 
 def calculate_unverified_percentage(path_to_fasta):
     seq_objects = SeqIO.parse(path_to_fasta, "fasta")  # converts to a seq object
@@ -71,73 +170,6 @@ def calculate_avg_length(path_to_fasta):
         total_length += len(genes)
     average = total_length / number_of_genes
     return average
-
-def build_search_term(gene_name, min_len = 0, max_len= -1):
-    term = f"{gene_name}[Gene Name]"
-    if max_len == -1:
-        for i in range(min_len):
-            term += f" NOT {i}[Sequence Length]"
-    else:
-        term += f" AND ({min_len}[Sequence Length]"
-        for i in range(min_len +1, max_len+1):
-            term += f" OR {i}[Sequence Length]"
-        term += ")"
-    return term
-
-def extract_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
-    '''Request data on GenBank from NCBI (with Entrez module), with filtering options
-    
-    Args:
-        gene_name: (str) name of the gene to extract from GenBank
-        seqlen_start: (int) lower bound of the sequence length filter
-        seqlen_stop: (int) upper bound of the sequence length filter
-    
-    Returns:
-        seq_record: (str) raw data of all sequences'''
-    handle = Entrez.esearch(db= "nucleotide", term= build_search_term(gene_name, seqlen_start, seqlen_stop))
-    record = Entrez.read(handle)
-    matching_requests = record["IdList"]
-    seq_handle = Entrez.efetch(db="nucleotide", id=matching_requests, retmode = "fasta", rettype = "fasta")
-    seq_record = seq_handle.read()
-    return seq_record
-
-def download_database(gene_name, seqlen_start = 0, seqlen_stop = -1):
-    '''Download data to a .fasta file, with filtering options
-    
-    Args:
-        gene_name: (str) name of the gene to extract from GenBank
-        seqlen_start: (int) lower bound of the sequence length filter
-        seqlen_stop: (int) upper bound of the sequence length filter
-    
-    Returns:
-        data_path: (str) path to downloaded data .fasta file
-    '''
-    data_path = f"{gene_name}[{seqlen_start},{seqlen_stop}].fasta"
-    with open(data_path, mode = "w") as file:
-        file.write(extract_database(gene_name,seqlen_start, seqlen_stop))
-    return data_path
-
-def parse_data(path):
-    '''Creates a dataframe (pandas) from raw data
-    
-    Args:
-        path: (str) path to raw data file
-        
-    Returns:
-        df: pandas dataframe of sequences'''
-    # Parse the FASTA file into SeqRecord object
-    sequences = SeqIO.parse(path, "fasta")
-
-    sequence_data = []
-    # Extract from each record a dictionnary of features
-    for record in sequences:
-        sequence_data.append({'ID': record.id,
-                              'Sequence': str(record.seq),
-                              'Description': record.description})
-
-    # Transform the list of dictionnaries to a pandas DataFrame
-    df = pd.DataFrame(sequence_data)
-    return df
 
 def nucleotide_ratio(df):
     df['A'] = df.Sequence.apply(lambda x: x.count('A')/len(x)*100)
