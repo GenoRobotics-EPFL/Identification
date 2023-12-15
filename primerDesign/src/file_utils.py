@@ -41,8 +41,7 @@ def delete_all_clusters(output_folder):
 
 ##clusters
 
-def generate_clusters(records, k_length, distance_within_clusters, output_folder, NUMBER_CLUSTERS):
-    kmers_nucleotides = retrieve_kmers(records, k_length)
+def generate_clusters(records, kmers_nucleotides, distance_within_clusters, output_folder, NUMBER_CLUSTERS):
 
 
     dist_matrix = compute_mash_distance_matrix(kmers_nucleotides)
@@ -83,7 +82,7 @@ def filter_and_save_cluster(records, clusters, cluster_number, cluster_index, ou
         cluster_index (integer): index of the cluster output file (only output file)
     """
     filtered_records = [record for record, cluster in zip(records, clusters) if cluster == cluster_number]
-    print("cluster {} has  {} records".format(cluster_number, len(filtered_records)))
+    print("cluster {} has  {} records \n".format(cluster_index, len(filtered_records)))
     SeqIO.write(filtered_records, "{}/cluster{}.fasta".format(output_folder, cluster_index), "fasta") ##save into file
 
 
@@ -105,9 +104,10 @@ def get_mean_and_deviation(filename_in):
 def get_number_pairs_found(pair_dictionnary):
     #pairs of primers found
     number_pairs = 0
-    for amplicon_range, pairs in pairs_dictionnary.items():
+    for amplicon_range, pairs in pair_dictionnary.items():
         number_pairs += len(pairs)
-    print(f"We have found {number_pairs} pairs of primers")
+    #print(f"We have found {number_pairs} pairs of primers")
+    return number_pairs
 
 ##alignement
 
@@ -124,7 +124,7 @@ def run_clustal_command(filename_in, filename_out):
     ]
 
     if not os.path.exists(filename_out):
-        subprocess.run(clustalo_command, check=True, stdout=subprocess.DEVNULL)
+        subprocess.run(clustalo_command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 
