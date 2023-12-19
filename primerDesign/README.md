@@ -28,9 +28,3 @@ And you could provide some additional arguments if needed :
 * ```-p numer_pairs``` Set the number of primer pairs finally returned by the algorithm. The default value is 3.
 * ```-min_range min_range``` and ```-max_range max_range``` Set the minimal and maximal amplicon size. Please note that this is an iterative process the larger that range will be, the longer the program will run. Default values are (min_range=300, max_range=1000)
 
-
-    parser.add_argument('-n', '--number-clusters', type=int, default=3, help='Number of clusters')
-    parser.add_argument('-p', '--number-pairs', type=int, default=3, help='Number of pairs returned')
-    parser.add_argument('-min_range', '--min_range', type=int, default=3, help='Minimum amplicon size for primer search')
-    parser.add_argument('-max_range', '--max_range', type=int, default=3, help='Maximum amplicon size for primer search')
-
