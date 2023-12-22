@@ -4,11 +4,29 @@ from itertools import chain
 from functools import partial
 from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor
+import mmh3
+from Bio.Seq import Seq
+
+MASH_LENGTH = 100
+
+#done following this website's advices : https://sourmash.readthedocs.io/en/latest/kmers-and-minhash.html
+def hash_kmer(kmer_string):
+    reverse_complement = str(Seq(kmer_string).reverse_complement())
+
+
+    if kmer_string < reverse_complement:
+        canonical_kmer = kmer_string
+    else:
+        canonical_kmer = reverse_complement
+
+    hash = mmh3.hash(canonical_kmer, 42, signed=False)
+
+    return hash
 
 def extract_kmers_from_sequence(sequence, k_length):
     sequence = [*(''.join(sequence)).strip('-')]
-    kmers = {tuple(sequence[i:i + k_length]) for i in range(min(len(sequence) - k_length + 1, 200))}
-    kmers |= {tuple(sequence[i:i + k_length]) for i in range(max(0, len(sequence) - 200), len(sequence) - k_length + 1)}
+    kmers = {hash_kmer(str(sequence[i:i + k_length])) for i in range(min(len(sequence) - k_length + 1, MASH_LENGTH))}
+    kmers |= {hash_kmer(str(sequence[i:i + k_length])) for i in range(max(0, len(sequence) - MASH_LENGTH), len(sequence) - k_length + 1)}
     return kmers
 
 def retrieve_kmers(records, k_length):

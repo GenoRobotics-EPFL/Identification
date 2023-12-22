@@ -22,9 +22,8 @@ def assert_no_cross_binding(primer_forward, primer_reverse):
 
 def assert_pair_primer_bindings(primer_forward, primer_reverse):
 
-    reverse_complement = str(Seq(primer_reverse).reverse_complement())
 
-    return assert_no_self_binding(primer_forward) and assert_no_self_binding(reverse_complement) and assert_no_cross_binding(primer_forward, reverse_complement)
+    return assert_no_self_binding(primer_forward) and assert_no_self_binding(primer_reverse) and assert_no_cross_binding(primer_forward, primer_reverse)
 
 def check_bindings(primer_forward, primer_reverse, pairs_found):
     if (pairs_found):
