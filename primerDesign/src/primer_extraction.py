@@ -25,6 +25,8 @@ def assert_pair_primer_bindings(primer_forward, primer_reverse):
 
     return assert_no_self_binding(primer_forward) and assert_no_self_binding(primer_reverse) and assert_no_cross_binding(primer_forward, primer_reverse)
 
+
+
 def check_bindings(primer_forward, primer_reverse, pairs_found):
     if (pairs_found):
         for tuple in pairs_found.values():
