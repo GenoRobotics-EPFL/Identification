@@ -1,0 +1,635 @@
+ time python3 src/primerDesigner.py -f examples/psbA-trnH_test/psbA-trnH_large.fasta
+
+
+Step 1
+
+100%|█████████████████████████████████████████████████████████████████████████████| 10938/10938 [02:35<00:00, 70.23it/s]
+cluster 1 has  306 records
+
+cluster 2 has  184 records
+
+cluster 3 has  103 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair CTGTTGAAGTTTCATCTACAAATGGATAATACT and CATTTACCTATTTATATAACGGATCGTATGGTG for range 300-380 and coverage 29.18%
+pair CTGTTGAAGTTTCATCTACAAATGGATAATACT and CATACAATCGCTATTCATAATGGAAAGGAA for range 380-460 and coverage 29.33%
+pair CTGTTGAAGTTTCATCTACAAATGGATAATACT and TTGTAGCTAATCATTTATCGGCAAAAATTG for range 460-540 and coverage 29.23%
+maximal number covered 3208 out of 10938 records
+Total covered : 3208 out of 10938 records, total coverage : 29.33%
+
+
+Step 2
+
+100%|███████████████████████████████████████████████████████████████████████████████| 7730/7730 [01:18<00:00, 97.87it/s]
+cluster 1 has  306 records
+
+cluster 2 has  103 records
+
+cluster 3 has  85 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair GAATTCAGTTAACGACGAGATTTAGTATCC and GACATAGGATGCCACTCTTTAAAATGAAAA for range 300-380 and coverage 23.08%
+pair GAATTCAGTTAACGACGAGATTTAGTATCC and CCTTATCCAGCTAAAGGATTTTCTCTTTTT for range 380-460 and coverage 18.47%
+pair GTAATGCTCACAATTTCCCTCTAGACTTAG and GACATAGGATGCCACTCTTTAAAATGAAAA for range 460-540 and coverage 12.38%
+maximal number covered 1784 out of 7730 records
+Total covered : 4992 out of 10938 records, total coverage : 45.64%
+
+
+Step 3
+
+Deleted file: output/iteration3/cluster1.aln
+Deleted file: output/iteration3/cluster1.fasta
+Deleted file: output/iteration3/cluster2.aln
+Deleted file: output/iteration3/cluster2.fasta
+Deleted file: output/iteration3/cluster3.fasta
+100%|██████████████████████████████████████████████████████████████████████████████| 5946/5946 [00:46<00:00, 128.27it/s]
+cluster 1 has  103 records
+
+cluster 2 has  75 records
+
+cluster 3 has  64 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair CAAGAAGGTTGGTATTGCTCCTTTATTTTT and CAACCTCAAAGAAAAGCTTTCTCTTTTATC for range 300-380 and coverage 9.35%
+pair TCCATTCATCATTATTGTATTTATTCTGACCTC and GATTTATTATCGTTTCTCGCATGTATCGTA for range 380-460 and coverage 5.31%
+pair TTTGTAGCTAATCATTTATCGGCAAAAATG and GTTTCATCTACAAATGGATAAGACTTTTGT for range 460-540 and coverage 4.37%
+maximal number covered 556 out of 5946 records
+Total covered : 5548 out of 10938 records, total coverage : 50.72%
+final pairs :
+defaultdict(<class 'list'>, {'380-460': [(name                               primer_1_LEFT
+pool                                           1
+seq            CTGTTGAAGTTTCATCTACAAATGGATAATACT
+size                                          33
+%gc                                         30.3
+tm (use 65)                                61.52
+Name: 0, dtype: object, name                           primer_1_RIGHT
+pool                                        1
+seq            CATACAATCGCTATTCATAATGGAAAGGAA
+size                                       30
+%gc                                     33.33
+tm (use 65)                             61.17
+Name: 1, dtype: object)], '300-380': [(name                            primer_2_LEFT
+pool                                        2
+seq            GAATTCAGTTAACGACGAGATTTAGTATCC
+size                                       30
+%gc                                     36.67
+tm (use 65)                             61.15
+Name: 2, dtype: object, name                           primer_2_RIGHT
+pool                                        2
+seq            GACATAGGATGCCACTCTTTAAAATGAAAA
+size                                       30
+%gc                                     33.33
+tm (use 65)                             61.61
+Name: 3, dtype: object), (name                            primer_2_LEFT
+pool                                        2
+seq            CAAGAAGGTTGGTATTGCTCCTTTATTTTT
+size                                       30
+%gc                                     33.33
+tm (use 65)                             61.95
+Name: 2, dtype: object, name                           primer_2_RIGHT
+pool                                        2
+seq            CAACCTCAAAGAAAAGCTTTCTCTTTTATC
+size                                       30
+%gc                                     33.33
+tm (use 65)                             60.92
+Name: 3, dtype: object)]})
+
+real    9m55.078s
+user    55m36.061s
+sys     2m57.831s
+
+
+
+
+primer analysis :
+
+Name    	Sequence                         	Tm°C	CG%	nt	A	T	C	G	Extinction coefficient(l/(mol·cm)	Molecular weight(g/mol)	nmol	µg/OD260
+forward1	ctgttgaagtttcatctacaaatggataatact	65.8	30.3	33	11.0	12.0	5.0	5.0	326000.0                         	10125.7                	3.1 	31.1
+reverse1	catacaatcgctattcataatggaaaggaa   	68.6	33.3	30	13.0	7.0	5.0	5.0	310800.0                         	9231.1                 	3.2 	29.7
+forward2	gaattcagttaacgacgagatttagtatcc   	65.7	36.7	30	10.0	9.0	5.0	6.0	303600.0                         	9229.1                 	3.3 	30.4
+reverse2	gacataggatgccactctttaaaatgaaaa   	68.1	33.3	30	13.0	7.0	5.0	5.0	308300.0                         	9231.1                 	3.2 	29.9
+forward3	caagaaggttggtattgctcctttattttt   	68.0	33.3	30	6.0	14.0	4.0	6.0	281300.0                         	9208.1                 	3.6 	32.7
+reverse3	caacctcaaagaaaagctttctcttttatc   	66.8	33.3	30	10.0	10.0	8.0	2.0	282800.0                         	9084.0                 	3.5 	32.1
+
+
+                Self-Dimers:
+
+1 dimer for: reverse3
+5-caacctcaaagaaaagctttctcttttatc->
+           | |||||      ||||| | 
+        <-ctattttctctttcgaaaagaaactccaac-5
+
+
+               Cross Primer Dimers:
+
+forward1 with forward2
+forward1
+5-ctgttgaagtttcatctacaaatggataatact->
+                         ||||| ||  
+                       <-cctatgatttagagcagcaattgacttaag-5
+
+forward1 with reverse2
+forward1
+5-ctgttgaagtttcatctacaaatggataatact->
+           |||||| |  ||  |    || ||
+        <-aaaagtaaaatttctcaccgtaggatacag-5
+
+forward1 with reverse3
+forward1
+5-ctgttgaagtttcatctacaaatggataatact->
+                          ||||| |  
+                        <-ctattttctctttcgaaaagaaactccaac-5
+
+reverse1 with reverse2
+reverse1
+5-catacaatcgctattcataatggaaaggaa->
+             | |||||  |  | ||   
+           <-aaaagtaaaatttctcaccgtaggatacag-5
+
+reverse2 with forward3
+reverse2
+5-gacataggatgccactctttaaaatgaaaa->
+                      ||||| ||  
+                   <-tttttatttcctcgttatggttggaagaac-5
+
+
+
+
+ time python3 src/primerDesigner.py -f examples/matK_test/matK_test.fasta
+
+
+Step 1
+
+Deleted file: output/iteration1/cluster1.aln
+Deleted file: output/iteration1/cluster1.fasta
+Deleted file: output/iteration1/cluster2.aln
+Deleted file: output/iteration1/cluster2.fasta
+Deleted file: output/iteration1/cluster3.aln
+Deleted file: output/iteration1/cluster3.fasta
+Deleted folder: output/iteration1/primalscheme_results1
+Deleted folder: output/iteration1/primalscheme_results2
+Deleted folder: output/iteration1/primalscheme_results3
+100%|████████████████████████████████████████████████████████████████████████████████| 783/783 [00:00<00:00, 839.48it/s]
+cluster 1 has  23 records
+
+cluster 2 has  23 records
+
+cluster 3 has  22 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair GAATCTATTTTCGTCTTTCTACGTAACCAA and GACGTTTGAAAGATAACCCAAAATTTCAAG for range 300-380 and coverage 21.84%
+pair CCTCTTCTAATGAATAAATGGAAATCTTACCTT and GAGGATCCGCTGTAATAATGAGAAAGATTT for range 380-460 and coverage 31.93%
+pair ATTTACGATCAACATCTTCTGGAGTTCTTC and CATATACGCGAAAATCGGTCAATAATATTAGA for range 460-540 and coverage 37.8%
+maximal number covered 296 out of 783 records
+Total covered : 296 out of 783 records, total coverage : 37.8%
+
+
+Step 2
+
+Deleted file: output/iteration2/cluster1.aln
+Deleted file: output/iteration2/cluster1.fasta
+Deleted file: output/iteration2/cluster2.aln
+Deleted file: output/iteration2/cluster2.fasta
+Deleted file: output/iteration2/cluster3.aln
+Deleted file: output/iteration2/cluster3.fasta
+Deleted folder: output/iteration2/primalscheme_results1
+Deleted folder: output/iteration2/primalscheme_results2
+Deleted folder: output/iteration2/primalscheme_results3
+100%|███████████████████████████████████████████████████████████████████████████████| 487/487 [00:00<00:00, 1234.13it/s]
+cluster 1 has  23 records
+
+cluster 2 has  22 records
+
+cluster 3 has  12 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair CGAGTCTTTCTTTATGAGTATCGTAATTGTAA and ATATTTCCATTTATTCATCAGAAGAGATGTACC for range 300-380 and coverage 25.87%
+pair CCTCTTCTAATGAATAAATGGAAATCTTACCTT and GAGGATCCGCTGTAATAATGAGAAAGATTT for range 380-460 and coverage 34.09%
+pair TATGTGAATACGAATCCATCTTCCTTTTTC and GAGGAATAATTGGAACTATTGTATCGAGTTTAT for range 460-540 and coverage 25.67%
+maximal number covered 166 out of 487 records
+Total covered : 462 out of 783 records, total coverage : 59.0%
+
+
+Step 3
+
+Deleted file: output/iteration3/cluster1.aln
+Deleted file: output/iteration3/cluster1.fasta
+Deleted file: output/iteration3/cluster2.aln
+Deleted file: output/iteration3/cluster2.fasta
+Deleted file: output/iteration3/cluster3.aln
+Deleted file: output/iteration3/cluster3.fasta
+Deleted folder: output/iteration3/primalscheme_results1
+Deleted folder: output/iteration3/primalscheme_results2
+Deleted folder: output/iteration3/primalscheme_results3
+100%|███████████████████████████████████████████████████████████████████████████████| 321/321 [00:00<00:00, 1699.64it/s]
+cluster 1 has  12 records
+
+cluster 2 has  9 records
+
+cluster 3 has  8 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair CATTATGTTCGATATCAAGGAAAAGCAATTC and GTACAAAATTTAGCTTTAGACAAGGATCCA for range 300-380 and coverage 53.58%
+pair CATTATGTTCGATATCAAGGAAAAGCAATTC and GACCAAATCGATCAATAATATCACAATCTGATA for range 380-460 and coverage 26.17%
+pair CAATCCTCTTATTTACGATTAACATCTTTTGG and ATACGGTACAAAATTTAGCTTTAGACAAGG for range 460-540 and coverage 45.48%
+maximal number covered 172 out of 321 records
+Total covered : 634 out of 783 records, total coverage : 80.97%
+final pairs :
+defaultdict(<class 'list'>, {'460-540': [(name                            primer_2_LEFT
+pool                                        2
+seq            ATTTACGATCAACATCTTCTGGAGTTCTTC
+size                                       30
+%gc                                     36.67
+tm (use 65)                             62.47
+Name: 2, dtype: object, name                             primer_2_RIGHT
+pool                                          2
+seq            CATATACGCGAAAATCGGTCAATAATATTAGA
+size                                         32
+%gc                                       31.25
+tm (use 65)                               61.38
+Name: 3, dtype: object)], '380-460': [(name                               primer_2_LEFT
+pool                                           2
+seq            CCTCTTCTAATGAATAAATGGAAATCTTACCTT
+size                                          33
+%gc                                         30.3
+tm (use 65)                                61.18
+Name: 2, dtype: object, name                           primer_2_RIGHT
+pool                                        2
+seq            GAGGATCCGCTGTAATAATGAGAAAGATTT
+size                                       30
+%gc                                     36.67
+tm (use 65)                             62.38
+Name: 3, dtype: object)], '300-380': [(name                             primer_5_LEFT
+pool                                         1
+seq            CATTATGTTCGATATCAAGGAAAAGCAATTC
+size                                        31
+%gc                                      32.26
+tm (use 65)                               61.2
+Name: 8, dtype: object, name                           primer_5_RIGHT
+pool                                        1
+seq            GTACAAAATTTAGCTTTAGACAAGGATCCA
+size                                       30
+%gc                                     33.33
+tm (use 65)                             61.17
+Name: 9, dtype: object)]})
+
+real    1m9.094s
+user    2m17.897s
+sys     0m31.725s
+
+
+time python3 src/primerDesigner.py -f examples/ITS_test/ITS2_madagascar.fasta
+
+
+Step 1
+
+Deleted file: output/iteration1/cluster1.aln
+Deleted file: output/iteration1/cluster1.fasta
+Deleted file: output/iteration1/cluster2.aln
+Deleted file: output/iteration1/cluster2.fasta
+Deleted file: output/iteration1/cluster3.aln
+Deleted file: output/iteration1/cluster3.fasta
+Deleted folder: output/iteration1/primalscheme_results1
+Deleted folder: output/iteration1/primalscheme_results2
+Deleted folder: output/iteration1/primalscheme_results3
+100%|██████████████████████████████████████████████████████████████████████████████| 3429/3429 [00:15<00:00, 214.79it/s]
+cluster 1 has  114 records
+
+cluster 2 has  45 records
+
+cluster 3 has  43 records
+
+Aligning cluster 1
+
+
+^CTraceback (most recent call last):
+  File "/mnt/c/users/antoi/Documents/Epfl/Genorobotics/Identification/primerDesign/src/primerDesigner.py", line 63, in <module>
+    main(args)
+  File "/mnt/c/users/antoi/Documents/Epfl/Genorobotics/Identification/primerDesign/src/primerDesigner.py", line 35, in main
+    run_clustal_command("{}/cluster{}.fasta".format(output_folder, i),
+  File "/mnt/c/users/antoi/Documents/Epfl/Genorobotics/Identification/primerDesign/src/file_utils.py", line 127, in run_clustal_command
+    subprocess.run(clustalo_command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+  File "/usr/lib/python3.10/subprocess.py", line 505, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 1146, in communicate
+    self.wait()
+  File "/usr/lib/python3.10/subprocess.py", line 1209, in wait
+    return self._wait(timeout=timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 1959, in _wait
+    (pid, sts) = self._try_wait(0)
+  File "/usr/lib/python3.10/subprocess.py", line 1917, in _try_wait
+    (pid, sts) = os.waitpid(self.pid, wait_flags)
+KeyboardInterrupt
+
+real    13m10.756s
+user    21m6.897s
+sys     2m57.210s
+
+atappy@davel-laptop:/mnt/c/users/antoi/Documents/Epfl/Genorobotics/Identification/primerDesign$ time python3 src/primerDesigner.py -f examples/ITS_test/ITS2_madagascar.fasta -d 0.01
+
+
+Step 1
+
+Deleted file: output/iteration1/cluster1.fasta
+Deleted file: output/iteration1/cluster2.fasta
+Deleted file: output/iteration1/cluster3.fasta
+100%|██████████████████████████████████████████████████████████████████████████████| 3429/3429 [00:15<00:00, 214.78it/s]
+cluster 1 has  70 records
+
+cluster 2 has  43 records
+
+cluster 3 has  36 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair CATATCAATAAGCGGAGGAAAAGAAACTTA and GACTCTCTTTTCAAAGTCCTTTTCATCTTT for range 300-380 and coverage 87.05%
+pair GATTACCCGCTGAGTTTAAGCATATCAATA and CAATTTCAAGCACTCTTTGACTCTCTTTTC for range 380-460 and coverage 86.79%
+pair GACAGACTGAGAGCTCTTTCTTGATTCTAT and CTAAATGATAAGGTTCAGTGGACTTCTTTC for range 460-540 and coverage 81.86%
+maximal number covered 2985 out of 3429 records
+Total covered : 2985 out of 3429 records, total coverage : 87.05%
+
+
+Step 2
+
+Deleted file: output/iteration2/cluster1.aln
+Deleted file: output/iteration2/cluster1.fasta
+Deleted file: output/iteration2/cluster2.aln
+Deleted file: output/iteration2/cluster2.fasta
+Deleted file: output/iteration2/cluster3.aln
+Deleted file: output/iteration2/cluster3.fasta
+Deleted folder: output/iteration2/primalscheme_results1
+Deleted folder: output/iteration2/primalscheme_results2
+Deleted folder: output/iteration2/primalscheme_results3
+100%|███████████████████████████████████████████████████████████████████████████████| 444/444 [00:00<00:00, 1328.36it/s]
+cluster 1 has  11 records
+
+cluster 2 has  7 records
+
+cluster 3 has  6 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair GAGCGATCTCCTATTATCATAACGACTCTC and GACATCTGATCATTGGAGTAGTCTCTTACT for range 300-380 and coverage 4.5%
+maximal number covered 20 out of 444 records
+Total covered : 3005 out of 3429 records, total coverage : 87.63%
+
+
+Step 3
+
+Deleted file: output/iteration3/cluster1.aln
+Deleted file: output/iteration3/cluster1.fasta
+Deleted file: output/iteration3/cluster2.aln
+Deleted file: output/iteration3/cluster2.fasta
+Deleted file: output/iteration3/cluster3.aln
+Deleted file: output/iteration3/cluster3.fasta
+Deleted folder: output/iteration3/primalscheme_results1
+Deleted folder: output/iteration3/primalscheme_results2
+Deleted folder: output/iteration3/primalscheme_results3
+100%|███████████████████████████████████████████████████████████████████████████████| 424/424 [00:00<00:00, 1560.66it/s]
+cluster 1 has  7 records
+
+cluster 2 has  6 records
+
+cluster 3 has  6 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair TTAATTGTTGTCCCTTTTTATCTAGTGTCTATC and ACTAAATGAGAGCAATGAAAGGGTAACATA for range 300-380 and coverage 6.84%
+pair CTATGTTACCCTTTCATTGCTCTCATTTAG and TTATGATTAGAAAGAAGCCATGGATAGTGA for range 380-460 and coverage 6.6%
+pair TTAATTGTTGTCCCTTTTTATCTAGTGTCTATC and GTTATACATGTTCACAGGTCATTCTGCTAC for range 460-540 and coverage 5.9%
+maximal number covered 29 out of 424 records
+Total covered : 3034 out of 3429 records, total coverage : 88.48%
+final pairs :
+defaultdict(<class 'list'>, {'300-380': [(name                            primer_6_LEFT
+pool                                        2
+seq            CATATCAATAAGCGGAGGAAAAGAAACTTA
+size                                       30
+%gc                                     33.33
+tm (use 65)                             61.07
+Name: 10, dtype: object, name                           primer_6_RIGHT
+pool                                        2
+seq            GACTCTCTTTTCAAAGTCCTTTTCATCTTT
+size                                       30
+%gc                                     33.33
+tm (use 65)                             61.46
+Name: 11, dtype: object), (name                            primer_1_LEFT
+pool                                        1
+seq            GAGCGATCTCCTATTATCATAACGACTCTC
+size                                       30
+%gc                                     43.33
+tm (use 65)                             63.16
+Name: 0, dtype: object, name                           primer_1_RIGHT
+pool                                        1
+seq            GACATCTGATCATTGGAGTAGTCTCTTACT
+size                                       30
+%gc                                      40.0
+tm (use 65)                             62.54
+Name: 1, dtype: object), (name                               primer_1_LEFT
+pool                                           1
+seq            TTAATTGTTGTCCCTTTTTATCTAGTGTCTATC
+size                                          33
+%gc                                         30.3
+tm (use 65)                                61.13
+Name: 0, dtype: object, name                           primer_1_RIGHT
+pool                                        1
+seq            ACTAAATGAGAGCAATGAAAGGGTAACATA
+size                                       30
+%gc                                     33.33
+tm (use 65)                             61.82
+Name: 1, dtype: object)]})
+
+real    140m22.455s
+user    176m49.935s
+sys     4m24.206s
+
+
+time python3 src/primerDesigner.py -f examples/psbA-trnH_test/psbA-trnH_all_angiospermae.fasta
+
+
+
+Step 1
+
+Deleted file: output/iteration1/cluster1.aln
+Deleted file: output/iteration1/cluster1.fasta
+Deleted file: output/iteration1/cluster2.aln
+Deleted file: output/iteration1/cluster2.fasta
+Deleted file: output/iteration1/cluster3.aln
+Deleted file: output/iteration1/cluster3.fasta
+Deleted folder: output/iteration1/primalscheme_results1
+Deleted folder: output/iteration1/primalscheme_results2
+Deleted folder: output/iteration1/primalscheme_results3
+  4%|██▉                                                                         | 2271/59014 [04:46<1:51:53,  8.45it/s]Killed
+
+real    5m40.210s
+user    4m49.801s
+sys     0m30.666s
+atappy@davel-laptop:/mnt/c/users/antoi/Documents/Epfl/Genorobotics/Identification/primerDesign$
+atappy@davel-laptop:/mnt/c/users/antoi/Documents/Epfl/Genorobotics/Identification/primerDesign$ time python3 src/primerDesigner.py -f examples/rbcL_test/rbcL_test.fasta
+
+
+Step 1
+
+100%|██████████████████████████████████████████████████████████████████████████████| 1461/1461 [00:03<00:00, 376.11it/s]
+cluster 1 has  42 records
+
+cluster 2 has  26 records
+
+cluster 3 has  23 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair AATTGACTTATTATACTCCTCAATACCAAACC and AAATACATTACCCACAATGGAAGTAAACAT for range 300-380 and coverage 54.62%
+pair GCTGGTGTTAGAGAGTATAAATTGACTTATTAT and CCTTGGAAAGTTTTAATATAAGAAGTAGGGATT for range 380-460 and coverage 52.98%
+pair AATTGACTTATTATACTCCTCAATACCAAACC and CCCTAATTTAGGTTTAATAGTACATCCCAATAG for range 460-540 and coverage 54.55%
+maximal number covered 798 out of 1461 records
+Total covered : 798 out of 1461 records, total coverage : 54.62%
+
+
+Step 2
+
+Deleted file: output/iteration2/cluster1.aln
+Deleted file: output/iteration2/cluster1.fasta
+Deleted file: output/iteration2/cluster2.aln
+Deleted file: output/iteration2/cluster2.fasta
+Deleted file: output/iteration2/cluster3.aln
+Deleted file: output/iteration2/cluster3.fasta
+Deleted folder: output/iteration2/primalscheme_results1
+Deleted folder: output/iteration2/primalscheme_results2
+Deleted folder: output/iteration2/primalscheme_results3
+100%|████████████████████████████████████████████████████████████████████████████████| 663/663 [00:00<00:00, 756.00it/s]
+cluster 1 has  26 records
+
+cluster 2 has  23 records
+
+cluster 3 has  21 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair GGTTGCGCTATATATATCAAAGAGTATACAATA and AGATATCAGTATCTTTGGTTTCGTACTCAG for range 300-380 and coverage 61.84%
+pair ATTATCGAATTCAAACCAAGAACAAATAGC and GAAAGATTCCCAACCAATACTAAAATTATCAAC for range 380-460 and coverage 32.88%
+pair GAATAAGAATCTTGAGAAAGCCTTTCATTTG and TGCCAAAATATCAGTATCTTTGGTTTCGTA for range 460-540 and coverage 46.91%
+maximal number covered 410 out of 663 records
+Total covered : 1208 out of 1461 records, total coverage : 82.68%
+
+
+Step 3
+
+Deleted file: output/iteration3/cluster1.aln
+Deleted file: output/iteration3/cluster1.fasta
+Deleted file: output/iteration3/cluster2.aln
+Deleted file: output/iteration3/cluster2.fasta
+Deleted file: output/iteration3/cluster3.aln
+Deleted file: output/iteration3/cluster3.fasta
+Deleted folder: output/iteration3/primalscheme_results1
+Deleted folder: output/iteration3/primalscheme_results2
+Deleted folder: output/iteration3/primalscheme_results3
+100%|███████████████████████████████████████████████████████████████████████████████| 253/253 [00:00<00:00, 1333.10it/s]
+cluster 1 has  23 records
+
+cluster 2 has  13 records
+
+cluster 3 has  8 records
+
+Aligning cluster 1
+
+Aligning cluster 2
+
+Aligning cluster 3
+
+pair CCATATTATCTATGGAATTCGAACCTAAACTC and GGTTATTAGACCATGTATTTGATTCACCAA for range 300-380 and coverage 16.21%
+pair CGATCCAACGAATCCAATTTAATTGTTTAC and TCATATGTATAGCGCAACCTAATCCTTTTT for range 380-460 and coverage 11.07%
+pair GATCGATTAATTCAATAAGAAATGGAAGTTAGC and TCATTATTGTATACTCTTTCATATGTATAGCGC for range 460-540 and coverage 15.81%
+maximal number covered 41 out of 253 records
+Total covered : 1249 out of 1461 records, total coverage : 85.49%
+final pairs :
+defaultdict(<class 'list'>, {'300-380': [(name                              primer_1_LEFT
+pool                                          1
+seq            AATTGACTTATTATACTCCTCAATACCAAACC
+size                                         32
+%gc                                       31.25
+tm (use 65)                               60.95
+Name: 0, dtype: object, name                           primer_1_RIGHT
+pool                                        1
+seq            AAATACATTACCCACAATGGAAGTAAACAT
+size                                       30
+%gc                                      30.0
+tm (use 65)                             60.94
+Name: 1, dtype: object), (name                               primer_4_LEFT
+pool                                           2
+seq            GGTTGCGCTATATATATCAAAGAGTATACAATA
+size                                          33
+%gc                                         30.3
+tm (use 65)                                60.68
+Name: 6, dtype: object, name                           primer_4_RIGHT
+pool                                        2
+seq            AGATATCAGTATCTTTGGTTTCGTACTCAG
+size                                       30
+%gc                                     36.67
+tm (use 65)                             61.51
+Name: 7, dtype: object), (name                              primer_2_LEFT
+pool                                          2
+seq            CCATATTATCTATGGAATTCGAACCTAAACTC
+size                                         32
+%gc                                       34.38
+tm (use 65)                               61.12
+Name: 2, dtype: object, name                           primer_2_RIGHT
+pool                                        2
+seq            GGTTATTAGACCATGTATTTGATTCACCAA
+size                                       30
+%gc                                     33.33
+tm (use 65)                             61.03
+Name: 3, dtype: object)]})
+
+real    2m20.924s
+user    8m14.650s
+sys     0m36.912s
