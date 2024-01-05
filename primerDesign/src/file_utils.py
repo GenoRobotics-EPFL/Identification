@@ -37,6 +37,10 @@ def delete_all_clusters(output_folder):
             if os.path.isdir(item_path):
                 shutil.rmtree(item_path)
                 print(f"Deleted folder: {item_path}")
+        elif file_name.startswith('iteration'):
+            if os.path.isdir(item_path):
+                shutil.rmtree(item_path)
+                print(f"Deleted folder: {item_path}")
 
 
 ##clusters
@@ -133,8 +137,8 @@ def run_clustal_command(filename_in, filename_out):
 def produce_regex_with_mismatches(primer, mismatches_allowed):
     return f"({primer}){{s<={mismatches_allowed}}}"
 
-def generate_regex(primerL, primerR, allowed_mismatches):
-    primer_reversed = Seq(primerR.upper()).reverse_complement()
+def generate_regex(primerL, primerR, allowed_mismatches=6):
+    primer_reversed = str(Seq(primerR.upper()).reverse_complement())
     primer_forward = primerL.upper()
     return produce_regex_with_mismatches(primer_forward, allowed_mismatches), produce_regex_with_mismatches(primer_reversed, allowed_mismatches)
 

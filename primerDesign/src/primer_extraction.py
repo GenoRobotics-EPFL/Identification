@@ -5,38 +5,22 @@ from file_utils import *
 import regex
 import primer3
 from collections import defaultdict
-
-MINIMAL_MELTING_TEMPERATURE = 50
-
-def assert_no_self_binding(primer_sequence):
-
-    # Run primer3 and check hairpin formation
-    result = primer3.calcHairpin(primer_sequence)
-    return result.tm < MINIMAL_MELTING_TEMPERATURE
-
-def assert_no_cross_binding(primer_forward, primer_reverse):
-
-    # Run primer3 and check hairpin formation
-    result = primer3.calcHeterodimer(primer_forward, primer_reverse)
-    return result.tm < MINIMAL_MELTING_TEMPERATURE
-
-def assert_pair_primer_bindings(primer_forward, primer_reverse):
+from cross_dimer import has_dimer
 
 
-    return assert_no_self_binding(primer_forward) and assert_no_self_binding(primer_reverse) and assert_no_cross_binding(primer_forward, primer_reverse)
-
-
-
+"""
+returns True if the primer proposed has not conflict with the pairs already found
+"""
 def check_bindings(primer_forward, primer_reverse, pairs_found):
     if (pairs_found):
         for tuple in pairs_found.values():
-            for forward, reverse in tuple:
-                forward = forward.seq
-                reverse = reverse.seq
-                if not (assert_pair_primer_bindings(primer_forward, reverse) and assert_pair_primer_bindings(forward, primer_reverse)
-                    and assert_no_cross_binding(primer_forward, forward) and assert_no_cross_binding(reverse, primer_reverse)):
-                    return False
-    return assert_pair_primer_bindings(primer_forward, primer_reverse)
+            for pair, coverage in tuple:
+                forward = pair[0].seq
+                reverse = pair[1].seq
+                if (has_dimer(primer_forward, forward) or has_dimer(primer_forward, reverse)
+                    or has_dimer(primer_reverse, forward) or has_dimer(primer_reverse, reverse)):
+                        return False
+    return not has_dimer(primer_forward, primer_reverse)
 
 def generate_primer_for_cluster(cluster_index, output_folder, pairs_dictionnary, min_range=300, max_range=500):
     cluster_aln = f"{output_folder}/cluster{cluster_index}.aln"
@@ -97,12 +81,12 @@ def test_primer_coverage_against_dataset(alignements, primer_pairs, indices_cove
                             count += 1
                             covered_indices.append(j)
                 
-                coverage = count/len(nucleotides)
+                coverage = count/len(alignements)
                 if (max_coverage[amplicon_range] < coverage):
                     max_coverage[amplicon_range] = coverage
                     if (max(max_coverage.values()) == coverage):
                         best_covered_indices = covered_indices
-                        best_pair = {amplicon_range: pairs[i]}
+                        best_pair = {amplicon_range: (pairs[i], coverage)}
                     best_pair_for_amplicon_size = {amplicon_range : pairs[i]}
             print(f"pair {list(best_pair_for_amplicon_size.values())[0][0].seq} and {list(best_pair_for_amplicon_size.values())[0][1].seq} for range {amplicon_range} and coverage {round(max_coverage[amplicon_range]*100, 2)}%")
     print(f"maximal number covered {len(best_covered_indices)} out of {len(nucleotides)} records")

@@ -8,7 +8,26 @@ from primer_extraction import *
 import concurrent.futures
 import argparse
 from Bio.Seq import Seq
+import csv
 
+def write_csv(result_pairs, args):
+    delete_all_clusters(args.output_folder)
+    csv_file_path = f"{args.output_folder}/output.csv"
+    with open(csv_file_path, 'w', newline='') as csv_file:
+        csv_writer = csv.writer(csv_file)
+
+        # Write the header
+        csv_writer.writerow(['Range', 'Forward Primer Seq', 'Reverse Primer Seq', 'Coverage [%]'])
+
+        # Write the data
+        for key, value in result_pairs.items():
+            for pair in value:
+                forward_primer_seq = pair[0][0]['seq']
+                reverse_primer_seq = pair[0][1]['seq']
+                coverage = round(pair[1]*100, 2)
+                csv_writer.writerow([key, forward_primer_seq, reverse_primer_seq, coverage])
+
+    print(f"Data has been written to {csv_file_path}")
 
 def main(args):
     create_folder(args.output_folder)
@@ -23,7 +42,6 @@ def main(args):
         print(f"\n\nStep {iteration_steps}\n")
         output_folder = f"{args.output_folder}/iteration{iteration_steps}"
         create_folder(output_folder)
-        delete_all_clusters(output_folder)
         records = [alignements[i] for i in range(nb_total_records) if i not in indices_covered]
         kmers_filtered = [kmers_nucleotides[i] for i in range(nb_total_records) if i not in indices_covered]
 
@@ -45,7 +63,7 @@ def main(args):
             result_pairs[k].append(v)
         indices_covered.update(new_indices)
         print(f"Total covered : {len(indices_covered)} out of {nb_total_records} records, total coverage : {round(100*len(indices_covered)/nb_total_records, 2)}%")
-    print(f"final pairs : \n{result_pairs}")
+    write_csv(result_pairs, args)
 
 
 if __name__ == "__main__":
@@ -54,7 +72,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--filename-fasta', type=str, required=True, help='path to fasta file')
     parser.add_argument('-k', '--k-length', type=int, default=15, help='Length of k-mers')
     parser.add_argument('-d', '--distance-within-clusters', type=float, default=0.1, help='Distance within clusters')
-    parser.add_argument('-n', '--number-clusters', type=int, default=3, help='Number of clusters')
+    parser.add_argument('-n', '--number-clusters', type=int, default=5, help='Number of clusters')
     parser.add_argument('-p', '--number-pairs', type=int, default=3, help='Number of pairs returned')
     parser.add_argument('-min_range', '--min_range', type=int, default=3, help='Minimum amplicon size for primer search')
     parser.add_argument('-max_range', '--max_range', type=int, default=3, help='Maximum amplicon size for primer search')
