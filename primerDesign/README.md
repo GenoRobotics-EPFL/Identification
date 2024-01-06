@@ -1,7 +1,7 @@
 # Automatic Primer Designer
 
 ## Goal of the project
-The goal of this project was to permit, given any dataset of genome sequences, to generate pairs of primers that have a coverage as high as possible over the whole dataset. 
+The goal of this project was to permit, given any dataset of genome sequences, to generate pairs of primers that have a coverage as high as possible over the whole dataset.
 
 ## File Structure - Algorithm
 The algorithm we use has the following shape :
@@ -13,7 +13,32 @@ The algorithm we use has the following shape :
 6. we test each pair of primers on the whole dataset, and retain the one that covers the most elements.
 7. We repeat the algorithm on the remaining datasets while ensuring that no cross or self-binding occur between the primers chosen.
 
-## Utilisation - command line arguments
+## Usage - Installation
+After having cloned the project, you will need to install python3, pip and clustal omega (clustalo) via your favorite package installer.
+
+Then install the required libraries using this command 
+
+```console
+sudo pip install bio biopython tqdm mmh3 scipy pandas regex primer3-py
+```
+
+To use primalscheme and be able to configure it properly, you will to clone [this source github repository](https://github.com/aresti/primalscheme), navigate to its root folder.
+
+Under the path *primalschem/src/primalscheme/config.py* you will find the configuration file, where you can tune the different parameters for RPA. Here are the main differences on my side :
+
+- primer size : 30-36, optimal 33
+- %gc : 30-70, optimal 55
+- maximal alignement ap percent : 0.1
+- primer maximum mismatches : 6
+
+Then you will be ready to install primalscheme by executing the following commands :
+
+```console
+sudo pip install flit
+flit install --pth-file
+```
+
+## Usage - Command line arguments
 You can use this command to run the program.
 ```console
   python src/primerDesigner.py -f filename-fasta

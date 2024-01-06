@@ -19,9 +19,7 @@ def hash_kmer(kmer_string):
     else:
         canonical_kmer = reverse_complement
 
-    hash = mmh3.hash(canonical_kmer, 42, signed=False)
-
-    return hash
+    return mmh3.hash(canonical_kmer, 42, signed=False)
 
 def extract_kmers_from_sequence(sequence, k_length):
     sequence = [*(''.join(sequence)).strip('-')]
@@ -30,15 +28,18 @@ def extract_kmers_from_sequence(sequence, k_length):
     return kmers
 
 def retrieve_kmers(records, k_length):
-    nucleotides = list(map(lambda x : extract_kmers_from_sequence(x, k_length), [record.seq for record in records]))
-    return nucleotides
+    return list(
+        map(
+            lambda x: extract_kmers_from_sequence(x, k_length),
+            [record.seq for record in records],
+        )
+    )
 
 
 def mash_distance(x, y):
     intersection = len(x.intersection(y))
     union = len(x.union(y))
-    jaccard_similarity = intersection / union
-    return jaccard_similarity
+    return intersection / union
 
 def calculate_mash_for_index(args):
     index, nucleotides, nb_elements = args

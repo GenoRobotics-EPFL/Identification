@@ -10,6 +10,10 @@ from Bio.Seq import Seq
 
 ##file management
 
+def create_folder_and_delete_content(folder_path):
+    create_folder(folder_path)
+    delete_all_clusters(folder_path)
+
 def create_folder(folder_path):
     """Create a folder if it doesn't exist."""
     if not os.path.exists(folder_path):
@@ -45,8 +49,17 @@ def delete_all_clusters(output_folder):
 
 ##clusters
 
-def generate_clusters(records, kmers_nucleotides, distance_within_clusters, output_folder, NUMBER_CLUSTERS):
+def generate_clusters(sequences, kmers_nucleotides, distance_within_clusters, output_folder, nb_clusters_generated):
+    """Generate clusters based on the given sequences and k-mers nucleotides.
 
+    Args:
+        sequences (list): list of sequences remaining.
+        kmers_nucleotides (list): list k-mers nucleotides for sequences remaining.
+        distance_within_clusters (float): The distance threshold for clustering.
+        output_folder (str): The output folder path.
+        nb_clusters_generated (int): The number of clusters generated.
+
+    """
 
     dist_matrix = compute_mash_distance_matrix(kmers_nucleotides)
     linkage_matrix = linkage(dist_matrix, 'centroid')
@@ -54,40 +67,41 @@ def generate_clusters(records, kmers_nucleotides, distance_within_clusters, outp
 
     clusters = fcluster(linkage_matrix, t=distance_within_clusters, criterion='distance')
 
-    save_largest_clusters(records, clusters, output_folder, NUMBER_CLUSTERS)
+    save_largest_clusters(sequences, clusters, output_folder, nb_clusters_generated)
 
 
 
-def save_largest_clusters(records, clusters, output_folder, number_clusters=3):
-    """_summary_
-    arrange the records according to the 3 largest groups in the clusters file
+def save_largest_clusters(sequences, clusters, output_folder, nb_clusters_generated=3):
+    """
+    arrange the sequences according to the 3 largest groups in the clusters file
     Args:
-        records (array): sequences of the dataset, unaligned
+        sequences (array): sequences of the dataset, unaligned
         clusters (array): array assigning each sequence of the dataset to a cluster number
         output_folder (string): path of output folder
-        number_clusters (integer): number of clusters to generate (default 3)
+        nb_clusters_generated (integer): number of clusters to generate (default 3)
     """
     cluster_counts = Counter(clusters)
-    cluster_index = 1
-    for number, _ in cluster_counts.most_common(number_clusters):
-        filter_and_save_cluster(records, clusters, number, cluster_index, output_folder)
-
-        cluster_index += 1
+    for cluster_index, (number, _) in enumerate(cluster_counts.most_common(nb_clusters_generated)):
+        filter_and_save_cluster(sequences, clusters, number, cluster_index, output_folder)
 
 
     
-def filter_and_save_cluster(records, clusters, cluster_number, cluster_index, output_folder):
-    """_summary_
-        filter the records according to a cluster number and dave it in a new fasta file
+def filter_and_save_cluster(sequences, clusters, cluster_number, cluster_index, output_folder):
+    """
+        filter the sequences according to a cluster number and save it in a new fasta file
     Args:
-        records (array): sequences of the dataset, unaligned
+        sequences (array): sequences of the dataset, unaligned
         clusters (array): array assigning each sequence of the dataset to a cluster number
         cluster_number (integer): number of the current cluster
         cluster_index (integer): index of the cluster output file (only output file)
     """
-    filtered_records = [record for record, cluster in zip(records, clusters) if cluster == cluster_number]
-    print("cluster {} has  {} records \n".format(cluster_index, len(filtered_records)))
-    SeqIO.write(filtered_records, "{}/cluster{}.fasta".format(output_folder, cluster_index), "fasta") ##save into file
+    filtered_sequences = [record for record, cluster in zip(sequences, clusters) if cluster == cluster_number]
+    print(f"cluster {cluster_index} has  {len(filtered_sequences)} sequences \n")
+    SeqIO.write(
+        filtered_sequences,
+        f"{output_folder}/cluster{cluster_index}.fasta",
+        "fasta",
+    )
 
 
 
@@ -95,6 +109,9 @@ def filter_and_save_cluster(records, clusters, cluster_number, cluster_index, ou
 ##stats
 
 def get_mean_and_deviation(filename_in):
+    """Calculate the mean and standard deviation of sequence lengths from the given file.
+
+    """
     alignements = list(SeqIO.parse(filename_in, "fasta"))
     num_sequences = len(alignements)
 
@@ -106,17 +123,17 @@ def get_mean_and_deviation(filename_in):
         f"Mean : {length_mean}\n" + f"Standard deviation : {standard_deviation}")
 
 def get_number_pairs_found(pair_dictionnary):
-    #pairs of primers found
-    number_pairs = 0
-    for amplicon_range, pairs in pair_dictionnary.items():
-        number_pairs += len(pairs)
-    #print(f"We have found {number_pairs} pairs of primers")
-    return number_pairs
+    return sum(len(pairs) for amplicon_range, pairs in pair_dictionnary.items())
+
+def percentage_round(number):
+    return round(number*100, 2)
 
 ##alignement
 
 def run_clustal_command(filename_in, filename_out):
+    """Run the Clustal Omega command to perform multiple sequence alignment.
 
+    """
     clustalo_command = [
     "clustalo",
     "-infile", filename_in,

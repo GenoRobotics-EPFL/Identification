@@ -18,12 +18,7 @@ def extract_primer_from_csv(csv_path):
         csv_reader = csv.reader(csv_file)
         next(csv_reader)
 
-        for row in csv_reader:
-            forward_primer_seq = row[1]
-            reverse_primer_seq = row[2]
-
-            primer_tuples.append((forward_primer_seq, reverse_primer_seq))
-
+        primer_tuples.extend((row[1], row[2]) for row in csv_reader)
     return primer_tuples
 
 def validate_against_genome(ITS_primer_path, matK_primer_path, 

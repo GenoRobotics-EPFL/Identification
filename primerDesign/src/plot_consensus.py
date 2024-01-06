@@ -48,7 +48,7 @@ def plot_consensus(cluster_filename_input, output_figure):
 
     # Create the consensus plot
     plt.figure(figsize=(20, 8))
-    plt.title("Cluster {}".format(cluster_filename_input))
+    plt.title(f"Cluster {cluster_filename_input}")
     plt.xlabel("Index of base")
     plt.ylabel("Consensus percentage")
     plt.bar(x, consensus_y, label="Consensus")
@@ -77,7 +77,7 @@ def treat_arguments():
 
     # Check if the output path ends with '.png'
     if not output_figure.lower().endswith('.png'):
-        print(f"Error: Output figure path must end with '.png'.")
+        print("Error: Output figure path must end with '.png'.")
         sys.exit(1)
 
     return cluster_filename_input, output_figure
