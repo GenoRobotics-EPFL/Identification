@@ -109,7 +109,7 @@ def align_all_clusters(iteration_folder, number_clusters):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Your script description')
+    parser = argparse.ArgumentParser(description='primer Designer')
     parser.add_argument('-o', '--output-folder', type=str, default="output", help='Output folder path')
     parser.add_argument('-f', '--filename-fasta', type=str, required=True, help='path to fasta file')
     parser.add_argument('-k', '--k-length', type=int, default=15, help='Length of k-mers')
