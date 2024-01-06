@@ -11,7 +11,7 @@ The algorithm we use has the following shape :
 4. Each cluster is then aligned using clustal omega
 5. For each aligned cluster we run the primalscheme program, which returns some candidate primers, that we add up in a list
 6. we test each pair of primers on the whole dataset, and retain the one that covers the most elements.
-7. We repeat the algorithm on the remaining datasets while ensuring that no cross or self-binding occur between the primers chosen.
+7. We repeat the algorithm on the remaining datasets while ensuring that no cross or self-binding occurs between the primers chosen.
 
 ## Usage - Installation
 After having cloned the project, you will need to install python3, pip and clustal omega (clustalo) via your favorite package installer.
@@ -52,4 +52,10 @@ And you could provide some additional arguments if needed :
 * ```-n number-cluster``` Set the number of groups retrieved at point 3 of the algorithm. The default value is 3.
 * ```-p numer_pairs``` Set the number of primer pairs finally returned by the algorithm. The default value is 3.
 * ```-min_range min_range``` and ```-max_range max_range``` Set the minimal and maximal amplicon size. Please note that this is an iterative process the larger that range will be, the longer the program will run. Default values are (min_range=300, max_range=1000)
+
+## Citing
+
+I used the following external programs : 
+- [Clustal Omega](https://europepmc.org/article/MED/35412617) for multiple sequence alignements
+- [primalscheme](https://www.nature.com/articles/nprot.2017.066) for primer generation
 
