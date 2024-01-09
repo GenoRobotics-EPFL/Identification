@@ -36,6 +36,7 @@ Then you will be ready to install primalscheme by executing the following comman
 ```console
 sudo pip install flit
 flit install --pth-file
+sudo pip install .
 ```
 
 ## Usage - Command line arguments
