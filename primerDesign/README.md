@@ -36,6 +36,7 @@ Then you will be ready to install primalscheme by executing the following comman
 ```console
 sudo pip install flit
 flit install --pth-file
+sudo pip install .
 ```
 
 ## Usage - Command line arguments
@@ -52,6 +53,7 @@ And you could provide some additional arguments if needed :
 * ```-n number-cluster``` Set the number of groups retrieved at point 3 of the algorithm. The default value is 3.
 * ```-p numer_pairs``` Set the number of primer pairs finally returned by the algorithm. The default value is 3.
 * ```-min_range min_range``` and ```-max_range max_range``` Set the minimal and maximal amplicon size. Please note that this is an iterative process the larger that range will be, the longer the program will run. Default values are (min_range=300, max_range=1000)
+* ```-m mash_distance``` Specify the length taken from start and end of each genome for mash distance calculation. Default 200.
 
 ## Citing
 
