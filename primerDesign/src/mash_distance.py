@@ -7,8 +7,6 @@ from concurrent.futures import ProcessPoolExecutor
 import mmh3
 from Bio.Seq import Seq
 
-MASH_LENGTH = 100
-
 #done following this website's advices : https://sourmash.readthedocs.io/en/latest/kmers-and-minhash.html
 def hash_kmer(kmer_string):
     reverse_complement = str(Seq(kmer_string).reverse_complement())
@@ -21,16 +19,16 @@ def hash_kmer(kmer_string):
 
     return mmh3.hash(canonical_kmer, 42, signed=False)
 
-def extract_kmers_from_sequence(sequence, k_length):
+def extract_kmers_from_sequence(sequence, k_length, mash_length):
     sequence = [*(''.join(sequence)).strip('-')]
-    kmers = {hash_kmer(str(sequence[i:i + k_length])) for i in range(min(len(sequence) - k_length + 1, MASH_LENGTH))}
-    kmers |= {hash_kmer(str(sequence[i:i + k_length])) for i in range(max(0, len(sequence) - MASH_LENGTH), len(sequence) - k_length + 1)}
+    kmers = {hash_kmer(str(sequence[i:i + k_length])) for i in range(min(len(sequence) - k_length + 1, mash_length))}
+    kmers |= {hash_kmer(str(sequence[i:i + k_length])) for i in range(max(0, len(sequence) - mash_length), len(sequence) - k_length + 1)}
     return kmers
 
-def retrieve_kmers(records, k_length):
+def retrieve_kmers(records, k_length, mash_length):
     return list(
         map(
-            lambda x: extract_kmers_from_sequence(x, k_length),
+            lambda x: extract_kmers_from_sequence(x, k_length, mash_length),
             [record.seq for record in records],
         )
     )

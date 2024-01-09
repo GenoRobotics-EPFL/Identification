@@ -9,6 +9,17 @@ def validate_against_chloroplast(primers, ref_chloroplast_path):
         regex_forward, regex_reverse = generate_regex(forward, reverse)
         if (regex.findall(regex_forward, str(ref_seq)) and
             regex.findall(regex_reverse, str(ref_seq))):
+            print(f"forward {forward} reverse {reverse}")
+            return True
+    return False
+
+def validate_against_chromosome_11(primers, ref_chromosome_11_path):
+    ref_seq = list(SeqIO.parse(ref_chromosome_11_path, "fasta"))[0].seq
+    for forward, reverse in primers:
+        regex_forward, regex_reverse = generate_regex(forward, reverse)
+        if (regex.findall(regex_forward, str(ref_seq)) and
+            regex.findall(regex_reverse, str(ref_seq))):
+            print(f"forward {forward} reverse {reverse}")
             return True
     return False
     
@@ -23,7 +34,7 @@ def extract_primer_from_csv(csv_path):
 
 def validate_against_genome(ITS_primer_path, matK_primer_path, 
                             rbcL_primer_path, psbA_trnH_primer_path,
-                            ref_chloroplast_path, ref_ITS_path):
+                            ref_chloroplast_path, ref_chromosome_11_path):
     
     if (validate_against_chloroplast(extract_primer_from_csv(psbA_trnH_primer_path), ref_chloroplast_path)):
         print("psbA-trnH validated !")
@@ -40,10 +51,10 @@ def validate_against_genome(ITS_primer_path, matK_primer_path,
     else :
         print("rbcL not validated..")
     
-    if (validate_against_chloroplast(extract_primer_from_csv(ITS_primer_path), ref_chloroplast_path)):
+    if (validate_against_chromosome_11(extract_primer_from_csv(ITS_primer_path), ref_chromosome_11_path)):
         print("ITS validated !")
     else :
         print("ITS not validated..")
     return 0
 
-validate_against_genome("output/ITS.csv", "output/matK.csv", "output/rbcL.csv", "output/psbA-trnH.csv", "examples/solanum_lycopersicum/chloroplast.fasta", "")
+validate_against_genome("output/ITS2.csv", "output/matK.csv", "output/rbcL.csv", "output/psbA-trnH.csv", "examples/solanum_lycopersicum/chloroplast.fasta", "examples/solanum_lycopersicum/chromosome_11.fasta")

@@ -67,10 +67,10 @@ def generate_primer_for_cluster(cluster_index, output_folder, pairs_dictionnary,
 
 def get_primer_coverage_against_dataset(all_sequences, new_primer_pairs, indices_covered, pairs_found):
     """
-    Calculate the coverage of primer pairs against the dataset of sequences.
+    Calculate the coverage of primer pairs against the dataset of sequences and return the best one
 
     Args:
-        all_sequences (list): List of all sequences in dataset.
+        all_sequences (list): List of all sequences in the dataset.
         new_primer_pairs (dict): Dictionary of new primer pairs.
         indices_covered (list): List of indices already covered by primers.
         pairs_found (dict): Dictionary of pairs already found.
@@ -81,12 +81,9 @@ def get_primer_coverage_against_dataset(all_sequences, new_primer_pairs, indices
     """
 
     nucleotides = [seq for i, seq in enumerate(all_sequences) if i not in indices_covered]
-    new_primer_pairs = {k: [pair for pair in v if check_bindings(pair[0].seq, pair[1].seq, pairs_found)]
-                    for k, v in new_primer_pairs.items()}
-
     allowed_mismatches = 6
     best_covered_indices = []
-    max_coverage = {}
+    best_coverage = 0.0
     best_pair = {}
 
     if not new_primer_pairs:
@@ -94,7 +91,6 @@ def get_primer_coverage_against_dataset(all_sequences, new_primer_pairs, indices
         return best_covered_indices, {}
 
     for amplicon_range, pairs in new_primer_pairs.items():
-        max_coverage[amplicon_range] = 0.0
         for pair in pairs:
             primerR = pair[1].seq
             primerL = pair[0].seq
@@ -104,11 +100,10 @@ def get_primer_coverage_against_dataset(all_sequences, new_primer_pairs, indices
                                regex.findall(left_regex, str(seq)) and regex.findall(right_regex, str(seq))]
 
             coverage = len(covered_indices) / len(all_sequences)
-            if coverage > max_coverage[amplicon_range]:
-                max_coverage[amplicon_range] = coverage
-                best_pair[amplicon_range] = (pair, coverage)
-                if coverage == max(max_coverage.values()):
-                    best_covered_indices = covered_indices
+            if coverage > best_coverage:
+                best_coverage = coverage
+                best_pair = {amplicon_range: (pair, coverage)}
+                best_covered_indices = covered_indices
 
     print(f"maximal number covered {len(best_covered_indices)} out of {len(nucleotides)} records")
     return best_covered_indices, best_pair

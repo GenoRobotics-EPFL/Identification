@@ -63,7 +63,7 @@ def main(args):
     ##create dataset and kmers
     all_sequences = list(SeqIO.parse(args.filename_fasta, "fasta"))
     nb_total_sequences = len(all_sequences)
-    kmers_nucleotides = retrieve_kmers(all_sequences, args.k_length)
+    kmers_nucleotides = retrieve_kmers(all_sequences, args.k_length, args.mash_length)
 
 
     for iteration_steps in range(1, args.number_pairs + 1):
@@ -113,8 +113,9 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output-folder', type=str, default="output", help='Output folder path')
     parser.add_argument('-f', '--filename-fasta', type=str, required=True, help='path to fasta file')
     parser.add_argument('-k', '--k-length', type=int, default=15, help='Length of k-mers')
+    parser.add_argument('-m', '--mash-length', type=int, default=200, help='Length of mash_distance at start and end of all sequences')
     parser.add_argument('-d', '--distance-within-clusters', type=float, default=0.1, help='Distance within clusters')
-    parser.add_argument('-n', '--number-clusters', type=int, default=5, help='Number of clusters')
+    parser.add_argument('-n', '--number-clusters', type=int, default=3, help='Number of clusters')
     parser.add_argument('-p', '--number-pairs', type=int, default=3, help='Number of pairs returned')
     parser.add_argument('-min_range', '--min_range', type=int, default=3, help='Minimum amplicon size for primer search')
     parser.add_argument('-max_range', '--max_range', type=int, default=3, help='Maximum amplicon size for primer search')

@@ -1,0 +1,384 @@
+rbcL:
+
+testing number clusters
+Testing with 1 clusters
+
+Coverage : 65.23
+
+Elapsed Time to test cluster 1: 97.03 seconds
+
+Testing with 3 clusters
+Coverage : 87.75
+
+Elapsed Time to test cluster 3: 133.51 seconds
+
+Testing with 5 clusters
+Coverage : 88.16
+
+Elapsed Time to test cluster 5: 162.11 seconds
+
+Testing with 7 clusters
+Coverage : 88.69999999999999
+
+Elapsed Time to test cluster 7: 190.75 seconds
+
+testing kmer_length
+Testing with 4 length
+Coverage : 82.0
+
+Elapsed Time to test kmer_length 4: 450.09 seconds
+
+Testing with 8 length
+Coverage : 88.85000000000001
+
+Elapsed Time to test kmer_length 8: 138.40 seconds
+
+Testing with 15 length
+Coverage : 87.75
+
+Elapsed Time to test kmer_length 15: 125.13 seconds
+
+Testing with 30 length
+Coverage : 88.16
+
+Elapsed Time to test kmer_length 30: 108.49 seconds
+
+Testing with 60 length
+Coverage : 83.09
+
+Elapsed Time to test kmer_length 60: 107.58 seconds
+
+testing cluster_dist
+Testing with 0.001 cluster distance
+Coverage : 83.22999999999999
+
+Elapsed Time to test cluster_dist 0.001: 107.08 seconds
+
+Testing with 0.01 cluster distance
+Coverage : 83.22999999999999
+
+Elapsed Time to test cluster_dist 0.01: 106.12 seconds
+
+Testing with 0.1 cluster distance
+Coverage : 87.75
+
+Elapsed Time to test cluster_dist 0.1: 129.13 seconds
+
+Testing with 0.3 cluster distance
+Coverage : 87.06
+
+Elapsed Time to test cluster_dist 0.3: 213.04 seconds
+
+Testing with 0.5 cluster distance
+Coverage : 87.89
+
+Elapsed Time to test cluster_dist 0.5: 432.31 seconds
+
+testing mash_length
+Testing with 50 mash length
+Coverage : 87.34
+
+Elapsed Time to test mash_length 50: 133.98 seconds
+
+Testing with 100 mash length
+Coverage : 87.27
+
+Elapsed Time to test mash_length 100: 123.52 seconds
+
+Testing with 200 mash length
+Coverage : 87.75
+
+Elapsed Time to test mash_length 200: 116.63 seconds
+
+Testing with 400 mash length
+Coverage : 85.49
+
+Elapsed Time to test mash_length 400: 152.96 seconds
+
+
+
+
+matK :
+
+testing number clusters
+Testing with 1 clusters
+Coverage : 80.46%
+
+Elapsed Time to test 1 clusters: 70.26 seconds
+
+Testing with 3 clusters
+Coverage : 73.3%
+
+Elapsed Time to test 3 clusters: 98.47 seconds
+
+Testing with 5 clusters
+Coverage : 93.75%
+
+Elapsed Time to test 5 clusters: 133.35 seconds
+
+Testing with 7 clusters
+Coverage : 93.75%
+
+Elapsed Time to test 7 clusters: 168.96 seconds
+
+
+
+
+testing kmer_length
+Testing with 4 length
+Coverage : 84.68%
+
+Elapsed Time to test kmer_length 4: 142.54 seconds
+
+Testing with 8 length
+Coverage : 71.65%
+
+Elapsed Time to test kmer_length 8: 127.56 seconds
+
+Testing with 15 length
+Coverage : 73.3%
+
+Elapsed Time to test kmer_length 15: 98.67 seconds
+
+Testing with 30 length
+Coverage : 79.18%
+
+Elapsed Time to test kmer_length 30: 82.58 seconds
+
+Testing with 60 length
+Coverage : 79.18%
+
+Elapsed Time to test kmer_length 60: 85.20 seconds
+
+
+
+
+testing cluster_dist
+Testing with 0.001 cluster distance
+Coverage : 81.09%
+
+Elapsed Time to test cluster_dist 0.001: 91.47 seconds
+
+Testing with 0.01 cluster distance
+Coverage : 81.09%
+
+Elapsed Time to test cluster_dist 0.01: 86.74 seconds
+
+Testing with 0.1 cluster distance
+Coverage : 73.3%
+
+Elapsed Time to test cluster_dist 0.1: 111.92 seconds
+
+Testing with 0.3 cluster distance
+Coverage : 85.06%
+
+Elapsed Time to test cluster_dist 0.3: 158.85 seconds
+
+Testing with 0.5 cluster distance
+Coverage : 88.13%
+
+Elapsed Time to test cluster_dist 0.5: 138.62 seconds
+
+testing mash_length
+Testing with 50 mash length
+Coverage : 92.73%
+
+Elapsed Time to test mash_length 50: 102.89 seconds
+
+Testing with 100 mash length
+Coverage : 83.78%
+
+Elapsed Time to test mash_length 100: 104.27 seconds
+
+Testing with 200 mash length
+Coverage : 73.3%
+
+Elapsed Time to test mash_length 200: 128.05 seconds
+
+Testing with 400 mash length
+Coverage : 92.73%
+
+Elapsed Time to test mash_length 400: 136.02 seconds
+
+
+
+psbA-trnH :
+
+testing number clusters
+Testing with 1 clusters
+Coverage : 18.79%
+
+Elapsed Time to test 1 clusters: 65.60 seconds
+
+Testing with 3 clusters
+Coverage : 47.36%
+
+Elapsed Time to test 3 clusters: 112.91 seconds
+
+Testing with 5 clusters
+Coverage : 47.36%
+
+Elapsed Time to test 5 clusters: 151.53 seconds
+
+Testing with 7 clusters
+Coverage : 47.36%
+
+Elapsed Time to test 7 clusters: 170.12 seconds
+
+
+
+
+testing kmer_length
+Testing with 4 length
+Coverage : 57.43%
+
+Elapsed Time to test kmer_length 4: 341.59 seconds
+
+Testing with 8 length
+Coverage : 57.14%
+
+Elapsed Time to test kmer_length 8: 236.43 seconds
+
+Testing with 15 length
+Coverage : 47.36%
+
+Elapsed Time to test kmer_length 15: 107.17 seconds
+
+Testing with 30 length
+Coverage : 45.16%
+
+Elapsed Time to test kmer_length 30: 72.86 seconds
+
+Testing with 60 length
+Coverage : 45.16%
+
+Elapsed Time to test kmer_length 60: 77.05 seconds
+
+
+
+
+testing cluster_dist
+Testing with 0.001 cluster distance
+Coverage : 30.21%
+
+Elapsed Time to test cluster_dist 0.001: 79.36 seconds
+
+Testing with 0.01 cluster distance
+Coverage : 23.4%
+
+Elapsed Time to test cluster_dist 0.01: 77.23 seconds
+
+Testing with 0.1 cluster distance
+Coverage : 47.36%
+
+Elapsed Time to test cluster_dist 0.1: 108.04 seconds
+
+Testing with 0.3 cluster distance
+Coverage : 57.91%
+
+Elapsed Time to test cluster_dist 0.3: 365.24 seconds
+
+Testing with 0.5 cluster distance
+Coverage : 57.91%
+
+Elapsed Time to test cluster_dist 0.5: 352.21 seconds
+
+
+
+
+testing mash_length
+Testing with 50 mash length
+Coverage : 57.91%
+
+Elapsed Time to test mash_length 50: 304.05 seconds
+
+Testing with 100 mash length
+Coverage : 49.76%
+
+Elapsed Time to test mash_length 100: 195.80 seconds
+
+Testing with 200 mash length
+Coverage : 47.36%
+
+Elapsed Time to test mash_length 200: 114.36 seconds
+
+Testing with 400 mash length
+Coverage : 40.65%
+
+Elapsed Time to test mash_length 400: 123.44 seconds
+
+
+
+ITS2 :
+
+testing number clusters
+Testing with 1 clusters
+Coverage : 87.02%
+
+Elapsed Time to test 1 clusters: 1927.62 seconds
+
+Testing with 3 clusters
+Coverage : 87.05%
+
+Elapsed Time to test 3 clusters: 14841.14 seconds
+
+Testing with 5 clusters
+Coverage : 87.9%
+
+Elapsed Time to test 5 clusters: 17858.20 seconds
+
+Testing with 7 clusters
+Coverage : 89.1%
+
+Elapsed Time to test 7 clusters: 20128.72 seconds
+
+
+testing kmer_length
+Testing with 4 length
+
+Coverage : 87.9%
+
+Elapsed Time to test kmer_length 4: 15370.43 seconds
+
+Testing with 8 length
+Coverage : 87.9%
+
+Elapsed Time to test kmer_length 8: 16676.94 seconds
+
+Testing with 15 length
+Methods and Algorithm
+Coverage : 87.05%
+
+Elapsed Time to test kmer_length 15: 14714.20 seconds
+
+Testing with 30 length
+Coverage : 87.9%
+
+Elapsed Time to test kmer_length 30: 10525.24 seconds
+
+Testing with 60 length
+Coverage : 87.9%
+
+Elapsed Time to test kmer_length 60: 10240.51 seconds
+
+
+testing cluster_dist
+Testing with 0.001 cluster distance
+Coverage : 88.07%
+
+Elapsed Time to test cluster_dist 0.001: 10214.97 seconds
+
+Testing with 0.01 cluster distance
+Coverage : 88.07%
+
+Elapsed Time to test cluster_dist 0.01: 10535.39 seconds
+
+Testing with 0.1 cluster distance
+
+Coverage : 87.05%
+
+Elapsed Time to test cluster_dist 0.1: 15543.34 seconds
+
+Testing with 0.3 cluster distance
+
+

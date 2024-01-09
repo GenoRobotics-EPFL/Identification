@@ -51,3 +51,4 @@ change the value n_base -> increasing it makes dimer search more permissive, dec
 def has_dimer(primer1, primer2, n_base=6):
     return dimer_look(primer1, primer1, n_base) or dimer_look(primer1, primer2, n_base) or dimer_look(primer2, primer2, n_base)
 
+
