@@ -380,5 +380,38 @@ Coverage : 87.05%
 Elapsed Time to test cluster_dist 0.1: 15543.34 seconds
 
 Testing with 0.3 cluster distance
+Coverage : 87.9%
 
+Elapsed Time to test cluster_dist 0.3: 10300.79 seconds
+
+Testing with 0.5 cluster distance
+Coverage : 87.9%
+
+Elapsed Time to test cluster_dist 0.5: 35663.13 seconds
+
+
+
+
+testing mash_length
+Testing with 50 mash length
+Coverage : 87.05%
+
+Elapsed Time to test mash_length 50: 3633.97 seconds
+
+Testing with 100 mash length
+
+
+Coverage : 87.05%
+
+Elapsed Time to test mash_length 100: 15159.92 seconds
+
+Testing with 200 mash length
+Coverage : 87.05%
+
+Elapsed Time to test mash_length 200: 14217.44 seconds
+
+Testing with 400 mash length
+Coverage : 87.9%
+
+Elapsed Time to test mash_length 400: 15622.56 seconds
 
