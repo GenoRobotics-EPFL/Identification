@@ -3,25 +3,27 @@ from Bio import SeqIO, Seq
 import csv
 import regex
 
-def validate_against_chloroplast(primers, ref_chloroplast_path):
-    ref_seq = list(SeqIO.parse(ref_chloroplast_path, "fasta"))[0].seq
+def validate(primers, ref_seq):
     for forward, reverse in primers:
         regex_forward, regex_reverse = generate_regex(forward, reverse)
-        if (regex.findall(regex_forward, str(ref_seq)) and
-            regex.findall(regex_reverse, str(ref_seq))):
+        forward_match = regex.search(regex_forward, str(ref_seq))
+        reverse_match = regex.search(regex_reverse, str(ref_seq))
+        
+        if forward_match and reverse_match:
             print(f"forward {forward} reverse {reverse}")
-            return True
+            
+            amplicon_size = reverse_match.start() - forward_match.start()
+            
+            return amplicon_size
     return False
+
+def validate_against_chloroplast(primers, ref_chloroplast_path):
+    ref_seq = list(SeqIO.parse(ref_chloroplast_path, "fasta"))[0].seq
+    return validate(primers, ref_seq)
 
 def validate_against_chromosome_11(primers, ref_chromosome_11_path):
     ref_seq = list(SeqIO.parse(ref_chromosome_11_path, "fasta"))[0].seq
-    for forward, reverse in primers:
-        regex_forward, regex_reverse = generate_regex(forward, reverse)
-        if (regex.findall(regex_forward, str(ref_seq)) and
-            regex.findall(regex_reverse, str(ref_seq))):
-            print(f"forward {forward} reverse {reverse}")
-            return True
-    return False
+    return validate(primers, ref_seq)
     
 def extract_primer_from_csv(csv_path):
     primer_tuples = []
@@ -36,23 +38,27 @@ def validate_against_genome(ITS_primer_path, matK_primer_path,
                             rbcL_primer_path, psbA_trnH_primer_path,
                             ref_chloroplast_path, ref_chromosome_11_path):
     
-    if (validate_against_chloroplast(extract_primer_from_csv(psbA_trnH_primer_path), ref_chloroplast_path)):
-        print("psbA-trnH validated !")
+    amplicon_size = validate_against_chloroplast(extract_primer_from_csv(psbA_trnH_primer_path), ref_chloroplast_path)
+    if (amplicon_size):
+        print(f"psbA-trnH validated with amplicon size {amplicon_size}!")
     else :
         print("psbA-trnH not validated..")
 
-    if (validate_against_chloroplast(extract_primer_from_csv(matK_primer_path), ref_chloroplast_path)):
-        print("matK validated !")
+    amplicon_size = validate_against_chloroplast(extract_primer_from_csv(matK_primer_path), ref_chloroplast_path)
+    if (amplicon_size):
+        print(f"matK vvalidated with amplicon size {amplicon_size}!")
     else :
         print("matK not validated..")
 
-    if (validate_against_chloroplast(extract_primer_from_csv(rbcL_primer_path), ref_chloroplast_path)):
-        print("rbcL validated !")
+    amplicon_size = validate_against_chloroplast(extract_primer_from_csv(rbcL_primer_path), ref_chloroplast_path)
+    if (amplicon_size):
+        print(f"rbcL validated with amplicon size {amplicon_size}!")
     else :
         print("rbcL not validated..")
     
-    if (validate_against_chromosome_11(extract_primer_from_csv(ITS_primer_path), ref_chromosome_11_path)):
-        print("ITS validated !")
+    amplicon_size = validate_against_chromosome_11(extract_primer_from_csv(ITS_primer_path), ref_chromosome_11_path)
+    if (amplicon_size):
+        print(f"ITS validated with amplicon size {amplicon_size}!")
     else :
         print("ITS not validated..")
     return 0

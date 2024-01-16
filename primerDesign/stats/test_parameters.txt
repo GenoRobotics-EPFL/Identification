@@ -1,4 +1,6 @@
-rbcL:
+rbcL:		
+
+standard execution Time : 126.1 seconds
 
 testing number clusters
 Testing with 1 clusters
@@ -99,6 +101,8 @@ Elapsed Time to test mash_length 400: 152.96 seconds
 
 
 matK :
+
+standard execution Time : 109.28 seconds
 
 testing number clusters
 Testing with 1 clusters
@@ -203,6 +207,8 @@ Elapsed Time to test mash_length 400: 136.02 seconds
 
 
 psbA-trnH :
+
+standard execution Time : 110.62 seconds
 
 testing number clusters
 Testing with 1 clusters
@@ -310,6 +316,8 @@ Elapsed Time to test mash_length 400: 123.44 seconds
 
 
 ITS2 :
+
+standard execution Time : 15032 seconds
 
 testing number clusters
 Testing with 1 clusters
