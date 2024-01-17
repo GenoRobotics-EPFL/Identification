@@ -14,7 +14,7 @@ from collections import Counter
 
 def plot_consensus(cluster_filename_input, output_figure):
     # Read sequences from the input file (may vary the encoding)
-    sequences = list(SeqIO.parse(cluster_filename_input, "clustal"))
+    sequences = list(SeqIO.parse(cluster_filename_input, "fasta"))
 
     # Check if all sequences have the same length
     sequence_length = len(sequences[0])
@@ -25,40 +25,37 @@ def plot_consensus(cluster_filename_input, output_figure):
     alignements = np.array([list(str(seq.seq)) for seq in sequences]).T
 
     # Initialize variables for plotting
-    x = []
-    consensus_y = []
-    holes_y = []
-
-    # Iterate over each position in the sequences
-    for i in range(sequence_length):
-        counts = Counter(alignements[i])
-        most_common, count = counts.most_common(2)[0]
-
-        # Skip positions where all sequences have a gap ("-")
-        if (most_common == "-" and count == len(alignements[i])):
-            count = 0
-            continue
-        elif (most_common == "-"):
-            most_common, count = counts.most_common(2)[1]
-
-        # Populate the plotting variables
-        x.append(i)
-        consensus_y.append(100 * count / (len(alignements[i])))
-        holes_y.append(100 * counts["-"] / (len(alignements[i])))
-
-    # Create the consensus plot
+    x = range(sequence_length)
+    count_a, count_t, count_c, count_g = [], [], [], []
     plt.figure(figsize=(20, 8))
     plt.title(f"Cluster {cluster_filename_input}")
     plt.xlabel("Index of base")
-    plt.ylabel("Consensus percentage")
-    plt.bar(x, consensus_y, label="Consensus")
-    plt.bar(x, holes_y, bottom=consensus_y, label="Unknown")
+    plt.ylabel("Basis percentage")
+
+    basis = ['A', 'T', 'C', 'G']
+    # Iterate over each position in the sequences
+    for i in range(sequence_length):
+        counts = Counter(alignements[i])
+        count = counts['A']
+        count_a.append(100 * count / (len(alignements[i])))
+        count = counts['T']
+        count_t.append(100 * count / (len(alignements[i])))
+        count = counts['C']
+        count_c.append(100 * count / (len(alignements[i])))
+        count = counts['G']
+        count_g.append(100 * count / (len(alignements[i])))
+
+
+    plt.bar(x, count_a, label="A")
+    plt.bar(x, count_t, bottom=count_a, label="T")
+    plt.bar(x, count_c, bottom=count_t, label="C")
+    plt.bar(x, count_g, bottom=count_c, label="G")
+
     plt.legend()
     plt.xticks(x)
 
     # Save the plot to the specified output figure path
     plt.savefig(output_figure)
-    plt.show()
 
 def treat_arguments():
     # Check if the correct number of arguments is provided

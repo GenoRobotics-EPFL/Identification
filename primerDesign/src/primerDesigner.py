@@ -8,7 +8,15 @@ from primer_extraction import *
 import concurrent.futures
 import argparse
 from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
 import csv
+from plot_consensus import plot_consensus
+
+
+
+def write_csv_and_graph(result_pairs, all_sequences, args):
+     write_graphs(result_pairs, all_sequences, args)
+     write_csv(result_pairs, args)
 
 def write_csv(result_pairs, args):
     """Write the result pairs to a CSV file.
@@ -45,6 +53,30 @@ def write_pair_of_primers(amplicon_range, primer_tuple, primer_coverage, csv_wri
     reverse_primer_seq = primer_tuple[1]['seq']
     primer_coverage = percentage_round(primer_coverage)
     csv_writer.writerow([amplicon_range, forward_primer_seq, reverse_primer_seq, primer_coverage])
+
+
+def write_graphs(result_pairs, all_sequences, args):
+     index = 0
+     for pair in result_pairs.values():
+            primerR = pair[0][0][1].seq
+            primerL = pair[0][0][0].seq
+            left_regex, right_regex = generate_regex(primerL, primerR)
+            covered_sequences = []
+            for record in all_sequences:
+                left_match = regex.search(left_regex, str(record.seq))
+                right_match = regex.search(right_regex, str(record.seq))
+                
+                if left_match and right_match:
+                    start, end = left_match.end(), right_match.start()
+                    subsequence = record.seq[start:end]
+                    subsequence_record = SeqIO.SeqRecord(subsequence, id=record.id, description=record.description)
+                    covered_sequences.append(subsequence_record)
+            output_file_fasta = f"{args.output_folder}/covered_by_primer{index}.fasta"
+            output_file_aln = f"{args.output_folder}/covered_by_primer{index}.aln"
+            SeqIO.write(covered_sequences, output_file_fasta, "fasta")
+            run_clustal_command(output_file_fasta, output_file_aln)
+            plot_consensus(output_file_aln, f"{args.output_folder}/covered_by_primer{index}.png")
+            index += 1
 
 def main(args):
     """Run the main process for primer design.
@@ -90,7 +122,7 @@ def main(args):
             
         indices_covered.update(new_indices)
         print(f"Total covered : {len(indices_covered)} out of {nb_total_sequences} sequences, total coverage : {percentage_round(len(indices_covered)/nb_total_sequences)}%")
-    write_csv(result_pairs, args)
+    write_csv_and_graph(result_pairs, all_sequences, args)
 
 def generate_and_test_primers(iteration_folder, number_clusters, indices_covered, found_primers, all_sequences):
     new_pairs = defaultdict(list)
