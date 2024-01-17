@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from Bio import SeqIO
 from collections import Counter
 
-def plot_consensus(cluster_filename_input, output_figure):
+def plot_consensus(primer_index, cluster_filename_input, output_figure):
     # Read sequences from the input file (may vary the encoding)
     sequences = list(SeqIO.parse(cluster_filename_input, "fasta"))
 
@@ -21,6 +21,7 @@ def plot_consensus(cluster_filename_input, output_figure):
     if any(len(seq) != sequence_length for seq in sequences):
         raise ValueError("All sequences must have the same length.")
 
+    print(f"For primer {primer_index}, the amplicon size is {sequence_length}")
     # Convert sequences into a NumPy array
     alignements = np.array([list(str(seq.seq)) for seq in sequences]).T
 

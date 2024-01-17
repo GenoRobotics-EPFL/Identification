@@ -75,7 +75,7 @@ def write_graphs(result_pairs, all_sequences, args):
             output_file_aln = f"{args.output_folder}/covered_by_primer{index}.aln"
             SeqIO.write(covered_sequences, output_file_fasta, "fasta")
             run_clustal_command(output_file_fasta, output_file_aln)
-            plot_consensus(output_file_aln, f"{args.output_folder}/covered_by_primer{index}.png")
+            plot_consensus(index, output_file_aln, f"{args.output_folder}/covered_by_primer{index}.png")
             index += 1
 
 def main(args):
