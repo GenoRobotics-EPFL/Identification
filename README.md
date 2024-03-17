@@ -26,6 +26,7 @@ Example of length :
     - MatK : 750 to 1500 -> ~110k Sequence, ~90Mo
     - rbcL : 600 to 1000 -> ~90k Sequence, ~80Mo
     - psbA-trnH : 400 to 800 -> ~60k Sequence, ~40Mo
+    - its: 1000 to 35000
 - Download it to have the information and the DNA sequence 
 Click and send to (corner top right) > Complete Record > File > Format = Fasta > Sort by : (as you want it's not important)
 <img width = "660" src = Images/ncbi.png>

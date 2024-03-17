@@ -31,12 +31,16 @@ def run_identification(sequence_path, gene_name, family_name):
         start = time.time()
             # In case no family name was provided
         if family_name == None:
+            print(os.getcwd())
             database_path =  ospath.abspath(os.getcwd() + "/Database/" + gene_name + ".fasta")
+            print(database_path)
             db, seq =  import_data(database_path, sequence_path, option = '1')
 
             # In case a family name is provided
         else: 
-            family_db = ospath.abspath(os.getcwd() + "/Database_by_family/" + family_name + "/" + gene_name + ".csv")
+            family_db = ospath.abspath(os.path.dirname(os.getcwd()) + "/Database_by_family/" + family_name + "/" + gene_name + ".csv")
+            family_db = r"C:/Users/ghass/projects/genorobotics/Identification/reorganization_by_family/Database_by_family/" + family_name + "/" +gene_name +".csv"
+            print(family_db)
             if ospath.exists(family_db):
                 db, seq =  import_data(family_db, sequence_path, option = '1')
 
@@ -84,36 +88,3 @@ def run_alignment(option, template_path, consensus_path):
         align(db, seq,"bioalign", option ="A")
         end = time.time()
         print(f'Execution time : ', end-start, 's')
-
-
-
-if __name__ == "__main__":
-    #Run all the programm
-    #Run the options (see the Readme file for more information on it)
-    #function time : allow to see the runtime of each different algorithm 
-    #print the result: 
-        #   DataFrame with the species and the score for option 1 
-        #   Alignment and score for option 2 and 3
-
-    parser = argparse.ArgumentParser(epilog="See '<option> --help' to read about a specific sub-command.")
-    subparser = parser.add_subparsers(dest = "option", help = "Sub-commands")
-
-    search = subparser.add_parser("1", help = "Sequence Identification")
-    search.add_argument("sequence_path", help = "Path to the consensus sequence")
-    search.add_argument("gene_name", help = "Name of sequenced gene", choices = ["matk", "rbcl", "psbA-trnh", "its"])
-    search.add_argument("--family_name", help = "If known, family name of sequenced species")
-
-    compare2 = subparser.add_parser("2", help = "Sequence comparison with NW algo")
-    compare2.add_argument("template_path", help = "Path to the template sequence")
-    compare2.add_argument("consensus_path", help = "Path to the consensus sequence")
-
-    compare3 = subparser.add_parser("3", help = "Sequence comparison with Bioalign")
-    compare3.add_argument("template_path", help = "Path to the template sequence")
-    compare3.add_argument("consensus_path", help = "Path to the consensus sequence")
-    
-    args = parser.parse_args()
-
-    if args.option == "1":
-        run_identification(args.sequence_path, args.gene_name, args.family_name)
-    elif args.option == "2" or "3":
-        run_alignment(args.option, args.template_path, args.consensus_path)

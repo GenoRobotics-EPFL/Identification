@@ -1,7 +1,14 @@
 from analysis_functions import *
+import os.path as ospath
+import sys
+sys.path.insert(0,os.getcwd())
+print(sys.path)
 
+from utils import *
 
-path = download_database("matk", 750, 1300)
+path = download_database("matk", 750, 751)
+print("done download")
+print(path)
 gene_df = parse_data(path)
 print("percentage of unverified sequences:", calculate_unverified_percentage(path))
 print("mean ratio of nucleotides")
