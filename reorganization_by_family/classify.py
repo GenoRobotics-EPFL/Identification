@@ -37,7 +37,7 @@ def build_database():
     None
     """
 
-    initial_dir = ospath.abspath(os.getcwd() + "/Database") # path to the initial database
+    initial_dir = ospath.abspath(ospath.dirname(os.getcwd()) + "/Database") # path to the initial database
     os.mkdir("Database_by_family") #creates a folder for saving the new_database
     creating_dir = ospath.abspath(os.getcwd() + "/Database_by_family") # and saves its dir
 
