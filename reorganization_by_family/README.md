@@ -65,3 +65,9 @@ The function `build_database()` executes all the necessary steps to construct th
 > its
 
 The function builds the database inside a new folder called "Database_by_family". Thus, the working directory should not already contain a folder with that name.
+
+### Issues
+
+- the order in which the files are treated for reorganization (its before matk) significantly increases the sequences that cannot be efficiently classified.
+- the new reorganized database is in csv format which is useful for directly accessing information like gene name but is not compatible with the use of BLASTn for alignment.
+- As requests on NCBI take time (max. of 3 requests per second), we try to find the family from the description string instead of asking NCBI directly for each sequence ID, this could be change to achieve 100% reorganization coverage.
