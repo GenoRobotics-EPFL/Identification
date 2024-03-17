@@ -129,7 +129,7 @@ def calculate_unverified_percentage(path_to_fasta):
     unverified_number = 0
     for gene in seq_objects:
         gene_amount += 1
-        if "unverified" in genes.description:
+        if "unverified" in gene.description.lower():
             unverified_number += 1
 
     unverified_percentage = unverified_number / gene_amount * 100
@@ -299,4 +299,4 @@ def plot_scatter(distances, output_filename="scatter_plot.png"):
 # plot_scatter(distances)
 
 
-database_file_analysis("/Users/ilgazarslan/Documents/Genorobotics/Identification/Database", 1)
+database_file_analysis(r"C:\Users\ghass\projects\geno-code\Identification\Database", 3)
